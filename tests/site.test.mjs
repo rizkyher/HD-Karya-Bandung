@@ -32,8 +32,11 @@ test('keeps every public destination in the shared navigation', () => {
     assert.match(shell, new RegExp(route));
   }
   assert.match(shell, /\['\/galeri', 'Galeri'\]/);
-  assert.match(shell, /href="\/kontak">Kontak <span/);
-  assert.match(shell, /button-primary mt-2" href="\/kontak">Kontak<\/a>/);
+  assert.match(shell, /import \{ page \} from '\$app\/state'/);
+  assert.match(shell, /aria-current=\{isActive\(link\[0\]\) \? 'page' : undefined\}/);
+  assert.match(shell, /page\.url\.pathname\.startsWith\(`\$\{href\}\/`\)/);
+  assert.match(shell, /href="\/kontak"[^>]*>Kontak <span/);
+  assert.match(shell, /button-primary mt-2" href="\/kontak"[^>]*>Kontak<\/a>/);
 });
 
 test('shares a polished visual foundation across public pages', () => {

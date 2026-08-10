@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { page } from '$app/state';
+
   let { children }: { children: import('svelte').Snippet } = $props();
   const links = [
     ['/layanan', 'Layanan'],
@@ -7,6 +9,8 @@
     ['/artikel', 'Artikel'],
     ['/tentang-kami', 'Tentang']
   ];
+
+  const isActive = (href: string) => page.url.pathname === href || page.url.pathname.startsWith(`${href}/`);
 </script>
 
 <a class="sr-only focus:not-sr-only focus:fixed focus:left-5 focus:top-5 focus:z-50 focus:bg-white focus:p-3 focus:text-ink" href="#content">Lewati ke konten utama</a>
@@ -20,18 +24,18 @@
 
     <nav class="hidden items-center gap-5 text-sm font-bold xl:flex" aria-label="Navigasi utama">
       {#each links as link}
-        <a class="transition-colors hover:text-clay" href={link[0]}>{link[1]}</a>
+        <a class={`border-b-2 py-7 transition-colors hover:text-clay ${isActive(link[0]) ? 'border-clay text-clay' : 'border-transparent'}`} href={link[0]} aria-current={isActive(link[0]) ? 'page' : undefined}>{link[1]}</a>
       {/each}
-      <a class="button-primary min-h-10 px-4 py-2" href="/kontak">Kontak <span aria-hidden="true">↗</span></a>
+      <a class="button-primary min-h-10 px-4 py-2" href="/kontak" aria-current={isActive('/kontak') ? 'page' : undefined}>Kontak <span aria-hidden="true">↗</span></a>
     </nav>
 
     <details class="relative xl:hidden">
       <summary class="grid min-h-11 min-w-11 cursor-pointer list-none place-items-center border border-ink text-lg" aria-label="Buka navigasi">☰</summary>
       <nav class="absolute right-0 top-[calc(100%+0.65rem)] z-20 grid w-64 gap-1 border border-stone bg-cloud p-3" aria-label="Navigasi mobile">
         {#each links as link}
-          <a class="p-3 text-sm font-bold hover:bg-mist" href={link[0]}>{link[1]}</a>
+          <a class={`p-3 text-sm font-bold hover:bg-mist ${isActive(link[0]) ? 'bg-mist text-clay' : ''}`} href={link[0]} aria-current={isActive(link[0]) ? 'page' : undefined}>{link[1]}</a>
         {/each}
-        <a class="button-primary mt-2" href="/kontak">Kontak</a>
+        <a class="button-primary mt-2" href="/kontak" aria-current={isActive('/kontak') ? 'page' : undefined}>Kontak</a>
       </nav>
     </details>
   </div>
