@@ -22,7 +22,7 @@
       {#each links as link}
         <a class="transition-colors hover:text-clay" href={link[0]}>{link[1]}</a>
       {/each}
-      <a class="button-primary min-h-10 px-4 py-2" href="/kontak">Konsultasi <span aria-hidden="true">↗</span></a>
+      <a class="button-primary min-h-10 px-4 py-2" href="/kontak">Kontak <span aria-hidden="true">↗</span></a>
     </nav>
 
     <details class="relative xl:hidden">
@@ -31,7 +31,7 @@
         {#each links as link}
           <a class="p-3 text-sm font-bold hover:bg-mist" href={link[0]}>{link[1]}</a>
         {/each}
-        <a class="button-primary mt-2" href="/kontak">Mulai konsultasi</a>
+        <a class="button-primary mt-2" href="/kontak">Kontak</a>
       </nav>
     </details>
   </div>

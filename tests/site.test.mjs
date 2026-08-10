@@ -32,6 +32,8 @@ test('keeps every public destination in the shared navigation', () => {
     assert.match(shell, new RegExp(route));
   }
   assert.match(shell, /\['\/galeri', 'Galeri'\]/);
+  assert.match(shell, /href="\/kontak">Kontak <span/);
+  assert.match(shell, /button-primary mt-2" href="\/kontak">Kontak<\/a>/);
 });
 
 test('keeps mobile navigation visible and offers a back-to-top control', () => {
