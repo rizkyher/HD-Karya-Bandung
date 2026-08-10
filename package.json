@@ -1,0 +1,8 @@
+{
+  "name": "hd-karya-bandung",
+  "private": true,
+  "scripts": {
+    "test": "node --test",
+    "check": "node --test"
+  }
+}

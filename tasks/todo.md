@@ -1,0 +1,9 @@
+- [x] Build the responsive landing-page structure.
+  - Acceptance: The company proposition, service overview, and consultation CTA are clear without scrolling horizontally.
+  - Verify: Open the page at 375px and 1440px.
+- [x] Add interaction and accessibility details.
+  - Acceptance: Navigation and form work with keyboard, focus is visible, and reduced motion is respected.
+  - Verify: Manual keyboard and viewport checks.
+- [x] Run a final static and visual review.
+  - Acceptance: No broken assets, console errors, or obvious layout regressions.
+  - Verify: Browser inspection and screenshot review.
