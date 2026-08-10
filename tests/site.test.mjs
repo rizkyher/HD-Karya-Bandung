@@ -26,6 +26,14 @@ test('keeps the public and protected route foundations in SvelteKit', () => {
   }
 });
 
+test('keeps every public destination in the shared navigation', () => {
+  const shell = read('../src/lib/components/PublicShell.svelte');
+  for (const route of ['/layanan', '/proyek', '/galeri', '/artikel', '/tentang-kami']) {
+    assert.match(shell, new RegExp(route));
+  }
+  assert.match(shell, /\['\/galeri', 'Galeri'\]/);
+});
+
 test('ships clearly labeled dummy visuals for public content states', () => {
   const grid = read('../src/lib/components/ContentGrid.svelte');
   for (const asset of [
