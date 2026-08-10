@@ -14,6 +14,7 @@ const labels: Record<ContentKind, string> = {
   TESTIMONI: 'Testimoni', KLIEN: 'Klien & Partner', SERTIFIKASI: 'Sertifikasi',
 };
 const encoder = new TextEncoder();
+const PBKDF2_ITERATIONS = 100000;
 
 export default {
   async fetch(request: Request, env: RuntimeEnv, ctx: ExecutionContext): Promise<Response> {
@@ -122,7 +123,7 @@ function sessionCookie(token: string, url: URL) { return `hd_session=${token}; P
 async function sha256(value: string) { const bytes = await crypto.subtle.digest('SHA-256', encoder.encode(value)); return btoa(String.fromCharCode(...new Uint8Array(bytes))); }
 function bytesToBase64(bytes: Uint8Array) { return btoa(String.fromCharCode(...bytes)); }
 function base64ToBytes(value: string) { return Uint8Array.from(atob(value), char => char.charCodeAt(0)); }
-async function passwordHash(password: string, salt = crypto.getRandomValues(new Uint8Array(16))) { const key = await crypto.subtle.importKey('raw', encoder.encode(password), 'PBKDF2', false, ['deriveBits']); const bits = await crypto.subtle.deriveBits({ name: 'PBKDF2', hash: 'SHA-256', salt, iterations: 210000 }, key, 256); return { hash: bytesToBase64(new Uint8Array(bits)), salt: bytesToBase64(salt) }; }
+async function passwordHash(password: string, salt = crypto.getRandomValues(new Uint8Array(16))) { const key = await crypto.subtle.importKey('raw', encoder.encode(password), 'PBKDF2', false, ['deriveBits']); const bits = await crypto.subtle.deriveBits({ name: 'PBKDF2', hash: 'SHA-256', salt, iterations: PBKDF2_ITERATIONS }, key, 256); return { hash: bytesToBase64(new Uint8Array(bits)), salt: bytesToBase64(salt) }; }
 async function verifyPassword(password: string, hash: string, salt: string) { const candidate = await passwordHash(password, base64ToBytes(salt)); return constantTimeEqual(encoder.encode(candidate.hash), encoder.encode(hash)); }
 function constantTimeEqual(a: Uint8Array, b: Uint8Array) { let difference = a.length ^ b.length; const length = Math.max(a.length, b.length); for (let index = 0; index < length; index += 1) difference |= (a[index] ?? 0) ^ (b[index] ?? 0); return difference === 0; }
 function clean(value: FormDataEntryValue | null, max = 3000) { return String(value ?? '').trim().slice(0, max); }
