@@ -49,7 +49,7 @@
   <div class="page-shell grid gap-10 py-12 md:grid-cols-[1.1fr_0.9fr]">
     <div>
       <p class="font-display text-3xl font-bold tracking-[-0.04em]">Ruang yang lebih siap untuk dipakai.</p>
-      <p class="mt-4 max-w-lg leading-7 text-white/70">HD Karya Bandung membantu menyusun pekerjaan konstruksi, renovasi, dan interior dengan percakapan awal yang terarah.</p>
+      <p class="mt-4 max-w-lg leading-7 text-white/70">HD Karya Bandung membantu menyusun pekerjaan perbaikan, renovasi, dan interior dengan percakapan awal yang terarah.</p>
     </div>
     <div class="grid content-start gap-3 text-sm md:justify-self-end">
       <a class="font-bold text-clay hover:text-white" href="/kontak">Mulai konsultasi ↗</a>

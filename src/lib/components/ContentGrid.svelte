@@ -5,11 +5,11 @@
   const illustrations: Record<ContentItem['kind'], { src: string; alt: string }> = {
     LAYANAN: { src: '/assets/dummy-renovation.webp', alt: 'Proses renovasi hunian kontemporer' },
     PROYEK: { src: '/assets/dummy-house.webp', alt: 'Eksterior hunian kontemporer' },
-    ARTIKEL: { src: '/assets/dummy-materials.webp', alt: 'Material konstruksi dan interior' },
+    ARTIKEL: { src: '/assets/dummy-materials.webp', alt: 'Material bangunan dan interior' },
     GALERI: { src: '/assets/dummy-interior.webp', alt: 'Interior hunian kontemporer' },
     TESTIMONI: { src: '/assets/dummy-interior.webp', alt: 'Interior hunian kontemporer' },
     KLIEN: { src: '/assets/dummy-house.webp', alt: 'Eksterior hunian kontemporer' },
-    SERTIFIKASI: { src: '/assets/dummy-materials.webp', alt: 'Material konstruksi dan interior' }
+    SERTIFIKASI: { src: '/assets/dummy-materials.webp', alt: 'Material bangunan dan interior' }
   };
 
   let { items, emptyTitle, emptyBody }: { items: ContentItem[]; emptyTitle: string; emptyBody: string } = $props();

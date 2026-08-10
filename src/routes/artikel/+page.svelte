@@ -8,7 +8,7 @@
 
 <svelte:head>
   <title>Artikel | HD Karya Bandung</title>
-  <meta name="description" content="Catatan praktis konstruksi, renovasi, interior, material dan utilitas dari HD Karya Bandung." />
+  <meta name="description" content="Catatan praktis perbaikan, renovasi, interior, material, dan utilitas dari HD Karya Bandung." />
 </svelte:head>
 
 <PublicShell>

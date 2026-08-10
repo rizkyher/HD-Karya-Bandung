@@ -6,7 +6,7 @@
 
 <svelte:head>
   <title>Konsultasi Proyek | HD Karya Bandung</title>
-  <meta name="description" content="Mulai konsultasi konstruksi, renovasi, atau interior bersama HD Karya Bandung." />
+  <meta name="description" content="Mulai konsultasi perbaikan, renovasi, atau interior bersama HD Karya Bandung." />
 </svelte:head>
 
 <PublicShell>
