@@ -7,3 +7,9 @@
 - [x] Run a final static and visual review.
   - Acceptance: No broken assets, console errors, or obvious layout regressions.
   - Verify: Browser inspection and screenshot review.
+- [x] Add persistent Worker application foundation.
+  - Acceptance: D1 migration provides users, sessions, content, inquiries, redirects, media metadata, and audit logs; R2 is bound for media objects.
+  - Verify: Apply the migration locally and exercise admin login and inquiry storage through `wrangler dev --local`.
+- [x] Add SEO and admin controls.
+  - Acceptance: Public routes include canonical/OG metadata, dynamic sitemap/robots, structured data, 404 handling, and content slugs create 301 redirects when changed; roles are enforced server-side.
+  - Verify: Run typecheck/tests and inspect local HTTP responses.

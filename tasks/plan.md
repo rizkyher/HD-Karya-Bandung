@@ -1,5 +1,6 @@
 # Plan — HD Karya Bandung
 
-1. Establish an accessible, responsive static-site foundation and the visual system.
-2. Build the primary conversion path: hero, services, work proof, process, and consultation form.
-3. Verify the page at phone and desktop widths, keyboard navigation, and reduced-motion mode.
+1. Establish an accessible, responsive public-site foundation and visual system.
+2. Build the primary conversion path, persistent inquiry handling, and public SEO routes.
+3. Build a secure, role-based Cloudflare Worker admin backed by D1 and R2.
+4. Verify the schema, role rules, type safety, and local Worker behaviour.
