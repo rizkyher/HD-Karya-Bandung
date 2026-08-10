@@ -56,6 +56,7 @@ test('seeds the company profile service catalog without inventing portfolio entr
     'Pengerjaan Kaca Grafir, Etsa, dan Inlay'
   ]) assert.match(seed, new RegExp(title));
   assert.match(seed, /INSERT INTO page_content/);
+  assert.match(read('../migrations/0003_shorten_hero_title.sql'), /Perbaikan & renovasi di Bandung\./);
   assert.match(read('../src/routes/tentang-kami/+page.svelte'), /mitra profesional/);
   assert.match(read('../src/routes/kontak/+page.svelte'), /Jasa Instalasi AC & CCTV/);
 });
