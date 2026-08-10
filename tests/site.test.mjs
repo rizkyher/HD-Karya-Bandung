@@ -25,3 +25,17 @@ test('keeps the public and protected route foundations in SvelteKit', () => {
     assert.ok(existsSync(new URL(path, import.meta.url)), `${path} should exist`);
   }
 });
+
+test('ships clearly labeled dummy visuals for public content states', () => {
+  const grid = read('../src/lib/components/ContentGrid.svelte');
+  for (const asset of [
+    'dummy-renovation.webp',
+    'dummy-house.webp',
+    'dummy-interior.webp',
+    'dummy-materials.webp'
+  ]) {
+    assert.ok(existsSync(new URL(`../static/assets/${asset}`, import.meta.url)), `${asset} should exist`);
+    assert.match(grid, new RegExp(asset));
+  }
+  assert.match(grid, /Foto ilustrasi sementara/);
+});
