@@ -2,16 +2,12 @@
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "hd-karya-bandung",
   "account_id": "eb85a8ce283c91ec262bde26e1716165",
-  "main": "src/index.ts",
+  "main": ".svelte-kit/cloudflare/_worker.js",
   "compatibility_date": "2026-08-08",
   "compatibility_flags": ["nodejs_compat"],
   "vars": { "ENVIRONMENT": "production" },
   "observability": { "enabled": true, "head_sampling_rate": 1 },
-  "assets": {
-    "directory": "./public",
-    "binding": "ASSETS",
-    "run_worker_first": true
-  },
+  "assets": { "directory": ".svelte-kit/cloudflare", "binding": "ASSETS" },
   "d1_databases": [
     {
       "binding": "DB",

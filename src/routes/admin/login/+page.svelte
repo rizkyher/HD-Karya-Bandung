@@ -1,0 +1,6 @@
+<svelte:head><title>Masuk Admin | HD Karya Bandung</title><meta name="robots" content="noindex,nofollow" /></svelte:head>
+<script lang="ts">
+  let { data, form }: { data: { next: string }; form: { message?: string; email?: string } | null } = $props();
+</script>
+
+<main class="grid min-h-screen place-items-center bg-ink p-5"><form method="POST" class="grid w-full max-w-md gap-5 bg-cloud p-7 sm:p-10"><a class="text-sm font-bold" href="/">← Kembali ke website</a><div><p class="eyebrow text-clay">Area terlindungi</p><h1 class="mt-3 font-display text-4xl font-bold tracking-[-0.04em]">Masuk ke admin</h1><p class="mt-3 text-forest">Kelola konten dan inquiry HD Karya Bandung.</p></div>{#if form?.message}<p class="border border-red-800 bg-red-50 p-3 text-sm text-red-900" role="alert">{form.message}</p>{/if}<input type="hidden" name="next" value={data.next} /><label class="grid gap-2 text-sm font-bold">Email<input class="min-h-12 border border-stone px-3 font-normal" name="email" type="email" autocomplete="username" value={form?.email ?? ''} required /></label><label class="grid gap-2 text-sm font-bold">Password<input class="min-h-12 border border-stone px-3 font-normal" name="password" type="password" autocomplete="current-password" required /></label><button class="button-primary w-full">Masuk</button></form></main>

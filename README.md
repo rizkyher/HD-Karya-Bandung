@@ -1,34 +1,43 @@
 # HD Karya Bandung
 
-Website dan admin aplikasi Cloudflare Workers untuk HD Karya Bandung. Implementasi mengikuti `ADMIN.md` dan `SEO.md`: konten tersimpan di D1, media di R2, admin berbasis role, serta halaman publik dan SEO dirender oleh Worker.
+Website dan dashboard admin HD Karya Bandung berbasis **SvelteKit**, **Tailwind
+CSS v4**, dan Cloudflare Workers. Konten dan sesi disimpan di D1; berkas media
+disimpan di R2.
 
 ## Jalankan lokal
 
 ```bash
 npm install
 npm run types
-npm run d1:migrate:local
-npx wrangler dev --local \
-  --var BOOTSTRAP_ADMIN_EMAIL:admin@local.test \
-  --var BOOTSTRAP_ADMIN_PASSWORD:gunakan-password-lokal-minimum-12
+npm run dev
 ```
 
-Buka `/admin/login`. Bootstrap hanya membuat akun `SUPER_ADMIN` pertama bila tabel pengguna masih kosong. Jangan pernah menyimpan password produksi di file yang dikomit.
-
-## Cek kualitas
+Untuk menguji aplikasi dengan binding D1/R2 lokal, gunakan Wrangler setelah
+migrasi lokal telah diterapkan:
 
 ```bash
-npm run typecheck
-npm test
-npm audit --omit=dev
+npm run d1:migrate:local
+npx wrangler dev --local
 ```
 
-## Siapkan produksi
+Jangan pernah menyimpan kredensial produksi di file yang dikomit.
 
-1. Buat database D1: `npx wrangler d1 create hd-karya-bandung`, lalu ganti `database_id` placeholder di [wrangler.jsonc](./wrangler.jsonc).
-2. Buat bucket R2: `npx wrangler r2 bucket create hd-karya-media`.
-3. Set akun admin awal sekali saja dengan `npx wrangler secret put BOOTSTRAP_ADMIN_EMAIL` dan `npx wrangler secret put BOOTSTRAP_ADMIN_PASSWORD`.
-4. Jalankan `npx wrangler d1 migrations apply hd-karya-bandung --remote`.
-5. Deploy dengan `npx wrangler deploy`.
+## Pemeriksaan
 
-Setelah akun pertama terbuat, hapus kedua bootstrap secret agar endpoint produksi tidak lagi memiliki kredensial bootstrap.
+```bash
+npm test
+npm run check
+npm run build
+```
+
+## Deploy
+
+Worker memakai binding D1 `hd-karya-bandung` dan bucket R2
+`hd-karya-media` yang sudah dikonfigurasi pada `wrangler.jsonc`.
+
+```bash
+npm run deploy
+```
+
+Setelah deploy, verifikasi beranda, `/robots.txt`, `/sitemap.xml`, dan login
+admin pada domain Worker produksi.

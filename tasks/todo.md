@@ -1,15 +1,10 @@
-- [x] Build the responsive landing-page structure.
-  - Acceptance: The company proposition, service overview, and consultation CTA are clear without scrolling horizontally.
-  - Verify: Open the page at 375px and 1440px.
-- [x] Add interaction and accessibility details.
-  - Acceptance: Navigation and form work with keyboard, focus is visible, and reduced motion is respected.
-  - Verify: Manual keyboard and viewport checks.
-- [x] Run a final static and visual review.
-  - Acceptance: No broken assets, console errors, or obvious layout regressions.
-  - Verify: Browser inspection and screenshot review.
-- [x] Add persistent Worker application foundation.
-  - Acceptance: D1 migration provides users, sessions, content, inquiries, redirects, media metadata, and audit logs; R2 is bound for media objects.
-  - Verify: Apply the migration locally and exercise admin login and inquiry storage through `wrangler dev --local`.
-- [x] Add SEO and admin controls.
-  - Acceptance: Public routes include canonical/OG metadata, dynamic sitemap/robots, structured data, 404 handling, and content slugs create 301 redirects when changed; roles are enforced server-side.
-  - Verify: Run typecheck/tests and inspect local HTTP responses.
+- [ ] Add the SvelteKit + Tailwind foundation and Cloudflare adapter.
+  - Acceptance: `npm run check` and `npm run build` pass with the Worker bindings typed.
+- [ ] Preserve D1/R2 data access, secure session auth, redirects, media and inquiry handling.
+  - Acceptance: no schema reset; public queries and protected admin routes work server-side.
+- [ ] Deliver public pages with consistent metadata and responsive conversion paths.
+  - Acceptance: homepage, services, projects, articles, contact, details, robots and sitemap render without layout artifacts.
+- [ ] Deliver usable admin routes and CRUD workflows.
+  - Acceptance: dashboard, all content modules, inquiry workflow, settings, users and audit log stay role-protected and labels do not truncate.
+- [ ] Run checks, inspect the live routes, and deploy to the configured Cloudflare Worker.
+  - Acceptance: production build is deployed and login plus one public route respond correctly.
