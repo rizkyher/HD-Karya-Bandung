@@ -10,6 +10,7 @@
   --color-mist: oklch(0.96 0.006 92);
   --color-stone: oklch(0.86 0.012 90);
   --color-cloud: oklch(0.985 0.002 90);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @layer base {
@@ -22,11 +23,13 @@
 
 @layer components {
   .page-shell { @apply mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-12; }
-  .button-primary { @apply inline-flex min-h-12 items-center justify-center gap-2 bg-clay px-5 py-3 text-sm font-bold text-white transition-colors hover:bg-ink focus-visible:bg-ink; }
-  .button-secondary { @apply inline-flex min-h-12 items-center justify-center gap-2 border border-ink px-5 py-3 text-sm font-bold text-ink transition-colors hover:bg-ink hover:text-white; }
-  .text-link { @apply inline-flex items-center gap-2 border-b border-current pb-1 text-sm font-bold transition-colors hover:text-clay; }
-  .section-title { @apply max-w-3xl font-display text-4xl font-bold leading-[1.04] tracking-[-0.035em] text-balance sm:text-5xl lg:text-6xl; }
-  .eyebrow { @apply text-xs font-bold tracking-[0.12em] uppercase; }
+  .button-primary { @apply inline-flex min-h-12 items-center justify-center gap-2 bg-clay px-5 py-3 text-sm font-bold text-white transition-colors duration-300 hover:bg-ink focus-visible:bg-ink; }
+  .button-secondary { @apply inline-flex min-h-12 items-center justify-center gap-2 border border-ink px-5 py-3 text-sm font-bold text-ink transition-colors duration-300 hover:bg-ink hover:text-white; }
+  .text-link { @apply inline-flex items-center gap-2 border-b border-current pb-1 text-sm font-bold transition-colors duration-300 hover:text-clay; }
+  .page-title { @apply max-w-4xl font-display text-[clamp(2.8rem,7vw,5.5rem)] font-bold leading-[0.96] tracking-[-0.035em] text-balance; }
+  .section-title { @apply max-w-3xl font-display text-[clamp(2.25rem,4.6vw,4.5rem)] font-bold leading-[1] tracking-[-0.03em] text-balance; }
+  .eyebrow { @apply text-xs font-bold tracking-[0.1em] uppercase; }
+  .field-input { @apply min-h-12 w-full border border-stone bg-cloud px-4 py-3 font-normal text-ink transition-colors duration-200 placeholder:text-forest/70 focus:border-ink focus:outline-none; }
 }
 
 @media (prefers-reduced-motion: reduce) {

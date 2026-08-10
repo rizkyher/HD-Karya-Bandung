@@ -1,3 +1,28 @@
-<script lang="ts">import PublicShell from '$lib/components/PublicShell.svelte';</script>
-<svelte:head><title>Tentang HD Karya Bandung</title><meta name="description" content="Mitra profesional untuk konstruksi, renovasi, arsitektur, interior, dan eksterior di Bandung." /></svelte:head>
-<PublicShell><main id="content"><section class="page-shell grid gap-10 py-20 lg:grid-cols-[0.75fr_1.25fr] lg:py-28"><p class="eyebrow text-clay">Tentang HD Karya Bandung</p><div><h1 class="section-title">Mitra profesional untuk ruang yang kokoh, presisi, dan estetis.</h1><p class="mt-8 max-w-2xl text-xl leading-8 text-forest">HD Karya Bandung adalah mitra profesional dalam jasa konstruksi, renovasi, pekerjaan arsitektur, serta penataan interior dan eksterior di Kota Bandung dan sekitarnya. Kami membantu merawat, memperbaiki, dan mempercantik hunian, kantor, maupun tempat usaha.</p><div class="mt-14 grid gap-8 border-t border-stone pt-8 sm:grid-cols-2"><div><h2 class="font-display text-2xl font-bold tracking-[-0.03em]">Konsultasi gratis</h2><p class="mt-3 leading-7 text-forest">Diskusi fleksibel tanpa biaya untuk membantu menemukan solusi yang sesuai kebutuhan dan budget.</p></div><div><h2 class="font-display text-2xl font-bold tracking-[-0.03em]">Harga transparan</h2><p class="mt-3 leading-7 text-forest">Penawaran yang kompetitif dan transparan tanpa mengorbankan kualitas material maupun hasil pengerjaan.</p></div><div><h2 class="font-display text-2xl font-bold tracking-[-0.03em]">Sesuai desain dan waktu</h2><p class="mt-3 leading-7 text-forest">Pengerjaan terencana dan disiplin sesuai kesepakatan desain serta batas waktu yang ditentukan.</p></div><div><h2 class="font-display text-2xl font-bold tracking-[-0.03em]">Jaminan maintenance</h2><p class="mt-3 leading-7 text-forest">Layanan purnajual dan garansi pemeliharaan untuk membantu menjaga kepuasan serta rasa tenang atas hasil kerja kami.</p></div></div></div></section><section class="bg-mist"><div class="page-shell grid gap-8 py-16 md:grid-cols-3"><p class="font-bold">Cara kerja kami</p><p class="md:col-span-2 text-2xl leading-tight text-forest">Didukung tenaga ahli berpengalaman, pengerjaan rapi, dan komitmen pada ketepatan waktu—mulai dari perbaikan skala kecil hingga renovasi total dengan biaya yang bersahabat dan transparan.</p></div></section></main></PublicShell>
+<script lang="ts">
+  import PublicShell from '$lib/components/PublicShell.svelte';
+
+  const strengths = [
+    ['Konsultasi gratis', 'Diskusi fleksibel tanpa biaya untuk membantu menemukan solusi yang sesuai kebutuhan dan budget.'],
+    ['Harga transparan', 'Penawaran kompetitif dan jelas tanpa mengorbankan kualitas material maupun hasil pengerjaan.'],
+    ['Sesuai desain dan waktu', 'Pengerjaan terencana dan disiplin sesuai kesepakatan desain serta batas waktu yang ditentukan.'],
+    ['Jaminan maintenance', 'Layanan purnajual untuk membantu menjaga kepuasan serta rasa tenang atas hasil kerja.']
+  ];
+</script>
+
+<svelte:head>
+  <title>Tentang HD Karya Bandung</title>
+  <meta name="description" content="Mitra profesional untuk konstruksi, renovasi, arsitektur, interior, dan eksterior di Bandung." />
+</svelte:head>
+
+<PublicShell>
+  <main id="content">
+    <section class="page-shell grid gap-10 py-16 sm:py-20 lg:grid-cols-[0.7fr_1.3fr] lg:gap-16 lg:py-28">
+      <div><p class="eyebrow text-clay">Tentang HD Karya Bandung</p></div>
+      <div><h1 class="page-title">Mitra profesional untuk ruang yang kokoh, presisi, dan estetis.</h1><p class="mt-8 max-w-3xl text-xl leading-8 text-forest">HD Karya Bandung adalah mitra profesional dalam jasa konstruksi, renovasi, pekerjaan arsitektur, serta penataan interior dan eksterior di Kota Bandung dan sekitarnya. Kami membantu merawat, memperbaiki, dan mempercantik hunian, kantor, maupun tempat usaha.</p></div>
+    </section>
+
+    <section class="border-y border-stone bg-mist"><div class="page-shell grid gap-8 py-14 md:grid-cols-[0.75fr_1.25fr] md:items-center"><p class="font-bold">Cara kerja kami</p><p class="max-w-4xl text-[clamp(1.45rem,3vw,2.25rem)] leading-[1.15] tracking-[-0.02em] text-forest">Didukung tenaga ahli berpengalaman, pengerjaan rapi, dan komitmen pada ketepatan waktu—mulai dari perbaikan skala kecil hingga renovasi total dengan biaya yang bersahabat dan transparan.</p></div></section>
+
+    <section class="page-shell py-16 sm:py-20 lg:py-24"><div class="grid gap-x-10 border-t border-stone sm:grid-cols-2">{#each strengths as strength}<article class="border-b border-stone py-8"><h2 class="font-display text-3xl font-bold tracking-[-0.03em]">{strength[0]}</h2><p class="mt-4 max-w-md leading-7 text-forest">{strength[1]}</p></article>{/each}</div><a class="button-primary mt-10" href="/kontak">Mulai konsultasi <span aria-hidden="true">↗</span></a></section>
+  </main>
+</PublicShell>

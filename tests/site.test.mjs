@@ -36,9 +36,20 @@ test('keeps every public destination in the shared navigation', () => {
   assert.match(shell, /button-primary mt-2" href="\/kontak">Kontak<\/a>/);
 });
 
+test('shares a polished visual foundation across public pages', () => {
+  assert.ok(existsSync(new URL('../src/lib/components/PageIntro.svelte', import.meta.url)));
+  assert.match(read('../src/app.css'), /--ease-out-expo/);
+  assert.match(read('../src/lib/components/PublicShell.svelte'), /backdrop-blur/);
+  assert.match(read('../src/lib/components/ContentGrid.svelte'), /group-hover:scale/);
+  for (const route of ['layanan', 'proyek', 'artikel', 'galeri']) {
+    assert.match(read(`../src/routes/${route}/+page.svelte`), /PageIntro/);
+  }
+  assert.match(read('../src/routes/kontak/+page.svelte'), /field-input/);
+});
+
 test('keeps mobile navigation visible and offers a back-to-top control', () => {
   const shell = read('../src/lib/components/PublicShell.svelte');
-  assert.match(shell, /<header[^>]*class="[^"]*sticky[^"]*xl:static/);
+  assert.match(shell, /<header[^>]*class="[^"]*sticky/);
   assert.match(shell, /aria-label="Kembali ke atas"/);
   assert.match(shell, /href="#content"/);
 });

@@ -1,3 +1,19 @@
-<script lang="ts">import PublicShell from '$lib/components/PublicShell.svelte'; import ContentGrid from '$lib/components/ContentGrid.svelte'; let { data }: { data: import('./$types').PageData } = $props();</script>
-<svelte:head><title>Layanan Konstruksi & Renovasi Bandung | HD Karya Bandung</title><meta name="description" content="Layanan konstruksi, renovasi, interior, dan pekerjaan luar ruang dari HD Karya Bandung." /></svelte:head>
-<PublicShell><main id="content"><section class="page-shell border-b border-stone py-20 lg:py-28"><p class="eyebrow text-clay">Layanan</p><h1 class="section-title mt-5">Pekerjaan yang disusun dari kebutuhan ruang Anda.</h1><p class="mt-6 max-w-2xl text-lg leading-8 text-forest">Pilih layanan yang paling mendekati kebutuhan Anda, lalu kami bantu memetakan langkah selanjutnya.</p></section><section class="page-shell py-16 lg:py-24"><ContentGrid items={data.items} emptyTitle="Layanan sedang disiapkan" emptyBody="Hubungi kami untuk mendiskusikan kebutuhan konstruksi, renovasi, atau interior Anda." /></section></main></PublicShell>
+<script lang="ts">
+  import ContentGrid from '$lib/components/ContentGrid.svelte';
+  import PageIntro from '$lib/components/PageIntro.svelte';
+  import PublicShell from '$lib/components/PublicShell.svelte';
+
+  let { data }: { data: import('./$types').PageData } = $props();
+</script>
+
+<svelte:head>
+  <title>Layanan Konstruksi & Renovasi Bandung | HD Karya Bandung</title>
+  <meta name="description" content="Layanan konstruksi, renovasi, interior, dan pekerjaan luar ruang dari HD Karya Bandung." />
+</svelte:head>
+
+<PublicShell>
+  <main id="content">
+    <PageIntro label="Layanan" title="Pekerjaan yang disusun dari kebutuhan ruang Anda." description="Pilih layanan yang paling mendekati kebutuhan Anda, lalu kami bantu memetakan langkah selanjutnya." />
+    <section class="page-shell py-16 sm:py-20 lg:py-24"><ContentGrid items={data.items} emptyTitle="Layanan sedang disiapkan" emptyBody="Hubungi kami untuk mendiskusikan kebutuhan konstruksi, renovasi, atau interior Anda." /></section>
+  </main>
+</PublicShell>
