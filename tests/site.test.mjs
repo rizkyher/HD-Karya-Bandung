@@ -64,3 +64,10 @@ test('uses a standalone empty panel for projects and articles instead of a parti
   assert.match(worker, /contentEmpty\('Artikel pertama sedang disiapkan'/);
   assert.match(css, /\.content-empty/);
 });
+
+test('uses explicit singular labels for admin create actions', () => {
+  assert.match(worker, /function singularLabel/);
+  assert.match(worker, /LAYANAN: 'Layanan'/);
+  assert.match(worker, /Tambah \$\{singularLabel\(kind\)\}/);
+  assert.doesNotMatch(worker, /labels\[kind\]\.slice\(0,-1\)/);
+});
