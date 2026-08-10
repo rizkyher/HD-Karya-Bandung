@@ -11,3 +11,8 @@ export function canManage(role, module) {
 export function isAdminRoute(pathname) {
   return pathname.startsWith('/admin') && pathname !== '/admin/login';
 }
+
+export function canChangeAdmin(actor, target, role, status) {
+  if (actor.role !== 'SUPER_ADMIN') return false;
+  return actor.id !== target.id || (role === 'SUPER_ADMIN' && status === 'ACTIVE');
+}
