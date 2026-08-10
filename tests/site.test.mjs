@@ -27,3 +27,12 @@ test('includes keyboard-safe navigation, responsive styling, and reduced-motion 
   assert.match(css, /@media \(prefers-reduced-motion:reduce\)/);
   assert.match(css, /:focus-visible/);
 });
+
+test('links the primary navigation and CTAs to standalone public pages', () => {
+  for (const path of ['/tentang-kami', '/layanan', '/proyek', '/artikel', '/kontak']) {
+    assert.match(html, new RegExp(`href="${path}"`));
+  }
+  assert.doesNotMatch(html, /href="#layanan"/);
+  assert.doesNotMatch(html, /href="#proyek"/);
+  assert.doesNotMatch(html, /href="#kontak"/);
+});
