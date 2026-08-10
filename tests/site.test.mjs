@@ -57,3 +57,10 @@ test('renders content-type detail sections from the saved CMS data', () => {
   assert.match(worker, /function relatedContent/);
   assert.match(worker, /BreadcrumbList/);
 });
+
+test('uses a standalone empty panel for projects and articles instead of a partial grid', () => {
+  assert.match(worker, /function contentEmpty/);
+  assert.match(worker, /contentEmpty\('Studi kasus sedang disiapkan'/);
+  assert.match(worker, /contentEmpty\('Artikel pertama sedang disiapkan'/);
+  assert.match(css, /\.content-empty/);
+});
