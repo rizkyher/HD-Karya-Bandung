@@ -1,10 +1,11 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "hd-karya-bandung",
+  "account_id": "eb85a8ce283c91ec262bde26e1716165",
   "main": "src/index.ts",
   "compatibility_date": "2026-08-08",
   "compatibility_flags": ["nodejs_compat"],
-  "vars": { "ENVIRONMENT": "development" },
+  "vars": { "ENVIRONMENT": "production" },
   "observability": { "enabled": true, "head_sampling_rate": 1 },
   "assets": {
     "directory": "./public",
@@ -15,7 +16,7 @@
     {
       "binding": "DB",
       "database_name": "hd-karya-bandung",
-      "database_id": "00000000-0000-0000-0000-000000000000",
+      "database_id": "ce821bb5-6c33-4f73-b72f-588b657db0fd",
       "migrations_dir": "migrations"
     }
   ],
