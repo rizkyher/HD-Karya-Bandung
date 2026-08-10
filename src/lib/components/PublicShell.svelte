@@ -11,7 +11,7 @@
 
 <a class="sr-only focus:not-sr-only focus:fixed focus:left-5 focus:top-5 focus:z-50 focus:bg-white focus:p-3 focus:text-ink" href="#content">Lewati ke konten utama</a>
 
-<header class="border-b border-stone bg-cloud">
+<header class="sticky top-0 z-30 border-b border-stone bg-cloud xl:static">
   <div class="page-shell flex min-h-20 items-center justify-between gap-5">
     <a href="/" class="flex items-center gap-3 font-display text-lg font-extrabold tracking-[-0.04em]" aria-label="HD Karya Bandung, beranda">
       <span class="grid h-9 w-9 place-items-center bg-ink text-sm text-white">HD</span>
@@ -38,6 +38,8 @@
 </header>
 
 {@render children()}
+
+<a class="fixed bottom-5 right-5 z-30 grid min-h-11 min-w-11 place-items-center border border-ink bg-ink text-lg text-white shadow-lg transition-colors hover:bg-clay focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink" href="#content" aria-label="Kembali ke atas">↑</a>
 
 <footer class="bg-ink text-white">
   <div class="page-shell grid gap-10 py-12 md:grid-cols-[1.1fr_0.9fr]">

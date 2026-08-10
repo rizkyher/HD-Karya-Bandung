@@ -34,6 +34,13 @@ test('keeps every public destination in the shared navigation', () => {
   assert.match(shell, /\['\/galeri', 'Galeri'\]/);
 });
 
+test('keeps mobile navigation visible and offers a back-to-top control', () => {
+  const shell = read('../src/lib/components/PublicShell.svelte');
+  assert.match(shell, /<header[^>]*class="[^"]*sticky[^"]*xl:static/);
+  assert.match(shell, /aria-label="Kembali ke atas"/);
+  assert.match(shell, /href="#content"/);
+});
+
 test('ships clearly labeled dummy visuals for public content states', () => {
   const grid = read('../src/lib/components/ContentGrid.svelte');
   for (const asset of [
