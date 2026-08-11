@@ -34,11 +34,14 @@ test('renders the login page outside the authenticated admin shell', () => {
 
 test('provides an interactive admin tutorial with step navigation', () => {
   const dashboard = read('../src/routes/admin/+page.svelte');
+  const dashboardLoad = read('../src/routes/admin/+page.server.ts');
   assert.match(dashboard, /Mulai tutorial/);
-  assert.match(dashboard, /tutorialOpen = \$state\(false\)/);
-  assert.match(dashboard, /Langkah \{tutorialStep \+ 1\} dari \{tutorialSteps\.length\}/);
+  assert.match(dashboardLoad, /url\.searchParams\.get\('tutorial'\)/);
+  assert.match(dashboard, /data\.tutorialStep/);
+  assert.match(dashboard, /Langkah \{data\.tutorialStep\} dari \{tutorialSteps\.length\}/);
   assert.match(dashboard, />Sebelumnya</);
   assert.match(dashboard, /Selanjutnya/);
+  assert.doesNotMatch(dashboard, /\$state/);
 });
 
 test('keeps every public destination in the shared navigation', () => {
