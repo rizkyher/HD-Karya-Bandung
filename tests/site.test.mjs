@@ -123,6 +123,8 @@ test('shares a polished visual foundation across public pages', () => {
 test('keeps mobile navigation visible and offers a back-to-top control', () => {
   const shell = read('../src/lib/components/PublicShell.svelte');
   assert.match(shell, /<header[^>]*class="[^"]*sticky/);
+  assert.match(shell, /hidden items-center gap-5 text-sm font-bold md:flex/);
+  assert.match(shell, /<details class="relative md:hidden">/);
   assert.match(shell, /aria-label="Kembali ke atas"/);
   assert.match(shell, /href="#content"/);
 });

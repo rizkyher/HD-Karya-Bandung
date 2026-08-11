@@ -27,14 +27,14 @@
       <span>Jasa Perbaikan<br />Bandung</span>
     </a>
 
-    <nav class="hidden items-center gap-5 text-sm font-bold xl:flex" aria-label="Navigasi utama">
+    <nav class="hidden items-center gap-5 text-sm font-bold md:flex" aria-label="Navigasi utama">
       {#each links as link}
         <a class={`border-b-2 py-7 transition-colors hover:text-clay ${isActive(link[0]) ? 'border-clay text-clay' : 'border-transparent'}`} href={link[0]} aria-current={isActive(link[0]) ? 'page' : undefined}>{link[1]}</a>
       {/each}
       <a class="button-primary min-h-10 px-4 py-2" href="/kontak" aria-current={isActive('/kontak') ? 'page' : undefined}>Kontak <span aria-hidden="true">↗</span></a>
     </nav>
 
-    <details class="relative xl:hidden">
+    <details class="relative md:hidden">
       <summary class="grid min-h-11 min-w-11 cursor-pointer list-none place-items-center border border-ink text-lg" aria-label="Buka navigasi">☰</summary>
       <nav class="absolute right-0 top-[calc(100%+0.65rem)] z-20 grid w-64 gap-1 border border-stone bg-cloud p-3" aria-label="Navigasi mobile">
         {#each [...links, ...proofLinks] as link}
