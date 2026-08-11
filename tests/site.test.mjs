@@ -12,6 +12,15 @@ test('uses SvelteKit, Tailwind, and the Cloudflare adapter', () => {
   assert.match(read('../src/app.css'), /@import "tailwindcss"/);
 });
 
+test('lets SvelteKit nonce its client scripts under the site CSP', () => {
+  const config = read('../svelte.config.js');
+  const hooks = read('../src/hooks.server.ts');
+  assert.match(config, /csp:\s*\{/);
+  assert.match(config, /mode:\s*'auto'/);
+  assert.match(config, /'script-src':\s*\['self'\]/);
+  assert.doesNotMatch(hooks, /Content-Security-Policy/);
+});
+
 test('keeps the public and protected route foundations in SvelteKit', () => {
   for (const path of [
     '../src/routes/+page.svelte',
