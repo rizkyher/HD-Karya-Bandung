@@ -6,7 +6,7 @@
 </script>
 
 <svelte:head>
-  <title>Jasa Perbaikan & Renovasi Bandung | HD Karya Bandung</title>
+  <title>Jasa Perbaikan & Renovasi Bandung | Jasa Perbaikan Bandung</title>
   <meta name="description" content="Jasa perbaikan, renovasi, arsitektur, interior, dan eksterior untuk rumah serta tempat usaha di Bandung." />
   <link rel="canonical" href="/" />
 </svelte:head>
@@ -14,7 +14,7 @@
 <PublicShell>
   <main id="content">
     <section class="page-shell grid gap-10 py-12 sm:py-16 lg:min-h-[44rem] lg:grid-cols-[1.08fr_0.92fr] lg:items-center lg:py-20">
-      <div class="max-w-3xl"><p class="eyebrow mb-6 text-clay">{hero.eyebrow || 'Jasa Perbaikan, Arsitektur, Interior, dan Renovasi'}</p><h1 class="page-title">{hero.heading || 'Perbaikan & renovasi di Bandung.'}</h1><p class="mt-8 max-w-2xl text-lg leading-8 text-forest">{hero.body || 'HD Karya Bandung membantu perbaikan, renovasi, pekerjaan arsitektur, serta penataan interior dan eksterior untuk rumah dan tempat usaha di Bandung dan sekitarnya.'}</p><div class="mt-10 flex flex-wrap gap-3"><a class="button-primary" href={hero.cta_href || '/kontak'}>{hero.cta_label || 'Konsultasi gratis'} <span aria-hidden="true">↗</span></a><a class="button-secondary" href="/layanan">Lihat layanan</a></div><p class="mt-7 text-sm font-bold text-forest">Konsultasi awal tanpa biaya · Penawaran transparan</p></div>
+      <div class="max-w-3xl"><p class="eyebrow mb-6 text-clay">{hero.eyebrow || 'Jasa Perbaikan, Arsitektur, Interior, dan Renovasi'}</p><h1 class="page-title">{hero.heading || 'Perbaikan & renovasi di Bandung.'}</h1><p class="mt-8 max-w-2xl text-lg leading-8 text-forest">{hero.body || 'Jasa Perbaikan Bandung membantu perbaikan, renovasi, pekerjaan arsitektur, serta penataan interior dan eksterior untuk rumah dan tempat usaha di Bandung dan sekitarnya.'}</p><div class="mt-10 flex flex-wrap gap-3"><a class="button-primary" href={hero.cta_href || '/kontak'}>{hero.cta_label || 'Konsultasi gratis'} <span aria-hidden="true">↗</span></a><a class="button-secondary" href="/layanan">Lihat layanan</a></div><p class="mt-7 text-sm font-bold text-forest">Konsultasi awal tanpa biaya · Penawaran transparan</p></div>
       <figure class="relative overflow-hidden bg-ink"><img class="h-80 w-full object-cover sm:h-[34rem] lg:h-[38rem]" src="/assets/hero-construction.png" alt="Rumah kontemporer yang sedang dibangun di perbukitan Bandung" /><figcaption class="absolute bottom-0 left-0 max-w-xs bg-ink px-5 py-4 text-sm leading-6 text-white/80">Dari perbaikan terarah sampai renovasi menyeluruh untuk ruang tinggal dan usaha.</figcaption></figure>
     </section>
     <section class="border-y border-stone bg-mist"><div class="page-shell grid gap-8 py-12 md:grid-cols-[0.75fr_1.25fr] md:items-center"><p class="text-lg font-bold">Apa yang kami kerjakan</p><p class="max-w-4xl text-[clamp(1.45rem,3vw,2.25rem)] leading-[1.15] tracking-[-0.02em] text-forest">Perbaikan dan renovasi ruang, utilitas dan sistem keamanan, pengerjaan material, interior serta restorasi kayu, hingga identitas visual bisnis.</p></div></section>

@@ -7,8 +7,8 @@
 </script>
 
 <svelte:head>
-  <title>Artikel | HD Karya Bandung</title>
-  <meta name="description" content="Catatan praktis perbaikan, renovasi, interior, material, dan utilitas dari HD Karya Bandung." />
+  <title>Artikel | Jasa Perbaikan Bandung</title>
+  <meta name="description" content="Catatan praktis perbaikan, renovasi, interior, material, dan utilitas dari Jasa Perbaikan Bandung." />
 </svelte:head>
 
 <PublicShell>

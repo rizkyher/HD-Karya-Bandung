@@ -7,8 +7,8 @@
 </script>
 
 <svelte:head>
-  <title>Galeri | HD Karya Bandung</title>
-  <meta name="description" content="Galeri dokumentasi pekerjaan HD Karya Bandung." />
+  <title>Galeri | Jasa Perbaikan Bandung</title>
+  <meta name="description" content="Galeri dokumentasi pekerjaan Jasa Perbaikan Bandung." />
 </svelte:head>
 
 <PublicShell>

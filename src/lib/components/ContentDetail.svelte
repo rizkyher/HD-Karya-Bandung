@@ -13,7 +13,7 @@
 </script>
 
 <svelte:head>
-  <title>{item.seo_title || `${item.title} | HD Karya Bandung`}</title>
+  <title>{item.seo_title || `${item.title} | Jasa Perbaikan Bandung`}</title>
   <meta name="description" content={item.meta_description || item.summary} />
   <link rel="canonical" href={item.canonical_url || `/${kindRoute}/${item.slug}`} />
   {#if item.index_status !== 'INDEX_FOLLOW'}<meta name="robots" content="noindex,follow" />{/if}
@@ -27,10 +27,10 @@
       </nav>
 
       <header class="max-w-5xl">
-        <p class="eyebrow text-clay">{item.category || (item.kind === 'ARTIKEL' ? data.author || 'HD Karya Bandung' : 'HD Karya Bandung')}</p>
+        <p class="eyebrow text-clay">{item.category || (item.kind === 'ARTIKEL' ? data.author || 'Jasa Perbaikan Bandung' : 'Jasa Perbaikan Bandung')}</p>
         <h1 class="page-title mt-5">{item.title}</h1>
         <p class="mt-7 max-w-3xl text-xl leading-8 text-forest">{item.summary}</p>
-        {#if item.kind === 'ARTIKEL'}<p class="mt-5 text-sm font-bold text-forest">{data.author || 'HD Karya Bandung'} · Estimasi {Math.max(1, Math.ceil(item.body.split(/\s+/).filter(Boolean).length / 200))} menit baca</p>{/if}
+        {#if item.kind === 'ARTIKEL'}<p class="mt-5 text-sm font-bold text-forest">{data.author || 'Jasa Perbaikan Bandung'} · Estimasi {Math.max(1, Math.ceil(item.body.split(/\s+/).filter(Boolean).length / 200))} menit baca</p>{/if}
       </header>
 
       {#if facts.length}

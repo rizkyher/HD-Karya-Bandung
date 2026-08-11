@@ -1,6 +1,6 @@
-# HD Karya Bandung
+# Jasa Perbaikan Bandung
 
-Website dan dashboard admin HD Karya Bandung berbasis **SvelteKit**, **Tailwind
+Website dan dashboard admin Jasa Perbaikan Bandung berbasis **SvelteKit**, **Tailwind
 CSS v4**, dan Cloudflare Workers. Konten dan sesi disimpan di D1; berkas media
 disimpan di R2.
 
