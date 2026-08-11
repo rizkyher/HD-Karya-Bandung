@@ -32,6 +32,15 @@ test('renders the login page outside the authenticated admin shell', () => {
   assert.match(read('../src/routes/admin/+layout.svelte'), /\{:else\}\{@render children\(\)\}/);
 });
 
+test('provides an interactive admin tutorial with step navigation', () => {
+  const dashboard = read('../src/routes/admin/+page.svelte');
+  assert.match(dashboard, /Mulai tutorial/);
+  assert.match(dashboard, /tutorialOpen = \$state\(false\)/);
+  assert.match(dashboard, /Langkah \{tutorialStep \+ 1\} dari \{tutorialSteps\.length\}/);
+  assert.match(dashboard, />Sebelumnya</);
+  assert.match(dashboard, /Selanjutnya/);
+});
+
 test('keeps every public destination in the shared navigation', () => {
   const shell = read('../src/lib/components/PublicShell.svelte');
   for (const route of ['/layanan', '/proyek', '/galeri', '/artikel', '/tentang-kami']) {
