@@ -7,6 +7,7 @@
   let data = $derived(parseData(item.data) as Record<string, string>);
   let paragraphs = $derived(String(item.body || '').split(/\n\s*\n/).map((paragraph) => paragraph.trim()).filter(Boolean));
   let kindRoute = $derived(routeForKind(item.kind));
+  let mediaId = $derived(data.cover_media_id || data.media_id);
   let facts = $derived(item.kind === 'PROYEK' ? [['Lokasi', data.location], ['Sektor', data.sector], ['Status', data.project_status], ['Tahun', [data.start_year, data.end_year].filter(Boolean).join('–')]].filter((entry) => entry[1]) : []);
   let extra = $derived(item.kind === 'LAYANAN' ? [['Cocok untuk', data.suitable_for], ['Masalah yang ditangani', data.problems], ['Scope pekerjaan', data.scope], ['Deliverables', data.deliverables], ['Proses kerja', data.process]] : item.kind === 'PROYEK' ? [['Tantangan proyek', data.challenge], ['Solusi', data.solution], ['Scope pekerjaan', data.scope], ['Hasil', data.result]] : []);
   let faq = $derived(String(data.faq || '').split('\n').map((row) => row.split('|').map((part) => part.trim())).filter(([question, answer]) => question && answer));
@@ -32,6 +33,10 @@
         <p class="mt-7 max-w-3xl text-xl leading-8 text-forest">{item.summary}</p>
         {#if item.kind === 'ARTIKEL'}<p class="mt-5 text-sm font-bold text-forest">{data.author || 'Jasa Perbaikan Bandung'} · Estimasi {Math.max(1, Math.ceil(item.body.split(/\s+/).filter(Boolean).length / 200))} menit baca</p>{/if}
       </header>
+
+      {#if mediaId}
+        <figure class="mt-12 overflow-hidden border border-stone bg-mist"><img class="aspect-[16/9] w-full object-cover" src={`/media/${mediaId}`} alt={item.media_alt || data.alt || item.title} width="1600" height="900" /></figure>
+      {/if}
 
       {#if facts.length}
         <dl class="mt-12 grid gap-px border-y border-stone bg-stone sm:grid-cols-2 lg:grid-cols-4">

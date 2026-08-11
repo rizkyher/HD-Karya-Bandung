@@ -13,7 +13,8 @@ export const load: PageServerLoad = async ({ params, platform, locals }) => {
   if (kind) {
     const item = params.id === 'baru' ? null : await env.DB.prepare('SELECT * FROM content_items WHERE id = ? AND kind = ?').bind(params.id, kind).first<Record<string, unknown>>();
     if (params.id !== 'baru' && !item) error(404, 'Konten tidak ditemukan.');
-    return { mode: 'content' as const, module: params.module, kind, title: `${params.id === 'baru' ? 'Tambah' : 'Edit'} ${labelFor(kind)}`, item: item ? { ...item, data: parseData(item.data) } : null, fields: fieldSets[kind] ?? [] };
+    const media = await env.DB.prepare('SELECT id, original_filename, content_type, alt FROM media ORDER BY created_at DESC LIMIT 60').all<{ id: string; original_filename: string; content_type: string; alt: string | null }>();
+    return { mode: 'content' as const, module: params.module, kind, title: `${params.id === 'baru' ? 'Tambah' : 'Edit'} ${labelFor(kind)}`, item: item ? { ...item, data: parseData(item.data) } : null, fields: fieldSets[kind] ?? [], media: media.results };
   }
   if (params.module === 'pesan-masuk') { const item = await env.DB.prepare('SELECT * FROM inquiries WHERE id = ?').bind(params.id).first<Record<string, unknown>>(); if (!item) error(404, 'Inquiry tidak ditemukan.'); return { mode: 'inquiry' as const, module: params.module, title: 'Detail inquiry', item, fields: [] }; }
   error(404, 'Halaman tidak ditemukan.');

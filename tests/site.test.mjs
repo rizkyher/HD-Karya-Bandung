@@ -64,6 +64,19 @@ test('guides admins through menus and fields with a visual tour', () => {
   assert.match(tutorial, /textarea\[name="summary"\]/);
 });
 
+test('lets editors select uploaded media and shows it on public content', () => {
+  const admin = read('../src/lib/server/admin.ts');
+  const editor = read('../src/routes/admin/[module]/[id]/+page.svelte');
+  const grid = read('../src/lib/components/ContentGrid.svelte');
+  const detail = read('../src/lib/components/ContentDetail.svelte');
+  const mediaLibrary = read('../src/routes/admin/[module]/+page.svelte');
+  assert.match(admin, /cover_media_id/);
+  assert.match(editor, /MediaPicker/);
+  assert.match(grid, /\/media\/\$\{mediaId\}/);
+  assert.match(detail, /\/media\/\$\{mediaId\}/);
+  assert.match(mediaLibrary, /\/media\/\$\{row\.id\}/);
+});
+
 test('keeps every public destination in the shared navigation', () => {
   const shell = read('../src/lib/components/PublicShell.svelte');
   for (const route of ['/layanan', '/proyek', '/galeri', '/artikel', '/tentang-kami']) {

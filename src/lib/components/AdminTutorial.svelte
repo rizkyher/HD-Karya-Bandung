@@ -12,7 +12,9 @@
     { path: '/admin/pengaturan', selector: 'input[name="company_name"]', title: 'Nama bisnis', body: 'Isi dengan nama usaha yang ingin tampil di header, judul website, dan identitas publik.' },
     { path: '/admin/pengaturan', selector: 'input[name="whatsapp_number"]', title: 'Nomor WhatsApp', body: 'Isi dengan nomor WhatsApp aktif dalam format angka agar tombol konsultasi mengarah ke nomor yang benar.' },
     { path: '/admin/konten', selector: 'a[href="/admin/konten"]', title: 'Menu Konten website', body: 'Di sini Anda mengubah teks halaman utama. Pilih section seperti hero atau layanan, lalu simpan setelah diperbarui.' },
+    { path: '/admin/media', selector: 'input[type="file"]', title: 'Upload gambar', body: 'Upload foto layanan atau proyek di sini. Isi alt text yang menjelaskan isi gambar agar mudah dipahami dan lebih ramah aksesibilitas.' },
     { path: '/admin/layanan/baru', selector: 'input[name="title"]', title: 'Judul layanan', body: 'Isi dengan nama layanan yang mudah dipahami calon pelanggan, misalnya “Perbaikan Atap Bocor”.' },
+    { path: '/admin/layanan/baru', selector: 'fieldset', title: 'Pilih gambar layanan', body: 'Pilih thumbnail gambar yang sudah diunggah. Setelah layanan disimpan dan diterbitkan, gambar ini akan muncul pada kartu layanan dan halaman detail.' },
     { path: '/admin/layanan/baru', selector: 'textarea[name="summary"]', title: 'Deskripsi singkat', body: 'Jelaskan masalah yang ditangani, hasil yang diharapkan, dan siapa yang cocok menggunakan layanan ini.' },
     { path: '/admin/pesan-masuk', selector: 'a[href="/admin/pesan-masuk"]', title: 'Pesan masuk', body: 'Buka inquiry baru untuk membaca kebutuhan pelanggan, lalu catat progres dan perbarui status setelah ditindaklanjuti.' }
   ];

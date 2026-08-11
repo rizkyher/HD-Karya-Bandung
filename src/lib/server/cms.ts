@@ -4,14 +4,14 @@ export type ContentKind = keyof typeof contentKinds extends never ? never : (typ
 export type ContentItem = {
   id: string; kind: ContentKind; title: string; slug: string; category: string; summary: string; body: string;
   data: string; seo_title: string | null; meta_description: string | null; canonical_url: string | null;
-  index_status: string; featured: number; published_at: string | null; updated_at: string;
+  index_status: string; featured: number; published_at: string | null; updated_at: string; media_alt: string | null;
 };
 
 export const contentSections = ['hero', 'about', 'services_home', 'projects_home', 'why_hd', 'process', 'final_cta'] as const;
 
 export async function listPublished(env: Env | undefined, kind: ContentKind, limit = 24) {
   if (!env) return [] as ContentItem[];
-  const rows = await env.DB.prepare("SELECT id, kind, title, slug, category, summary, body, data, seo_title, meta_description, canonical_url, index_status, featured, published_at, updated_at FROM content_items WHERE kind = ? AND status = 'PUBLISHED' ORDER BY featured DESC, published_at DESC LIMIT ?")
+  const rows = await env.DB.prepare("SELECT c.id, c.kind, c.title, c.slug, c.category, c.summary, c.body, c.data, c.seo_title, c.meta_description, c.canonical_url, c.index_status, c.featured, c.published_at, c.updated_at, m.alt AS media_alt FROM content_items c LEFT JOIN media m ON m.id = COALESCE(json_extract(c.data, '$.cover_media_id'), json_extract(c.data, '$.media_id')) WHERE c.kind = ? AND c.status = 'PUBLISHED' ORDER BY c.featured DESC, c.published_at DESC LIMIT ?")
     .bind(kind, limit)
     .all<ContentItem>();
   return rows.results;
@@ -19,7 +19,7 @@ export async function listPublished(env: Env | undefined, kind: ContentKind, lim
 
 export async function getPublished(env: Env | undefined, kind: ContentKind, slug: string) {
   if (!env) return null;
-  return env.DB.prepare("SELECT id, kind, title, slug, category, summary, body, data, seo_title, meta_description, canonical_url, index_status, featured, published_at, updated_at FROM content_items WHERE kind = ? AND slug = ? AND status = 'PUBLISHED'")
+  return env.DB.prepare("SELECT c.id, c.kind, c.title, c.slug, c.category, c.summary, c.body, c.data, c.seo_title, c.meta_description, c.canonical_url, c.index_status, c.featured, c.published_at, c.updated_at, m.alt AS media_alt FROM content_items c LEFT JOIN media m ON m.id = COALESCE(json_extract(c.data, '$.cover_media_id'), json_extract(c.data, '$.media_id')) WHERE c.kind = ? AND c.slug = ? AND c.status = 'PUBLISHED'")
     .bind(kind, slug)
     .first<ContentItem>();
 }

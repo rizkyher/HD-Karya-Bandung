@@ -20,10 +20,15 @@
     {#each items as item}
       {@const data = parseData(item.data) as Record<string, string>}
       {@const illustration = illustrations[item.kind]}
+      {@const mediaId = data.cover_media_id || data.media_id}
       <article class="group flex min-h-72 flex-col border-b border-stone py-7 sm:pr-7">
         <div class="relative aspect-[4/3] overflow-hidden bg-stone">
-          <img class="h-full w-full object-cover transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:scale-[1.035]" src={illustration.src} alt={`${illustration.alt} — foto ilustrasi sementara, bukan dokumentasi proyek Jasa Perbaikan Bandung`} width="1448" height="1086" loading="lazy" />
-          <p class="absolute bottom-0 left-0 bg-ink px-3 py-2 text-xs font-bold uppercase tracking-[0.12em] text-white">Foto ilustrasi sementara</p>
+          {#if mediaId}
+            <img class="h-full w-full object-cover transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:scale-[1.035]" src={`/media/${mediaId}`} alt={item.media_alt || data.alt || item.title} width="1448" height="1086" loading="lazy" />
+          {:else}
+            <img class="h-full w-full object-cover transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:scale-[1.035]" src={illustration.src} alt={`${illustration.alt} — foto ilustrasi sementara, bukan dokumentasi proyek Jasa Perbaikan Bandung`} width="1448" height="1086" loading="lazy" />
+            <p class="absolute bottom-0 left-0 bg-ink px-3 py-2 text-xs font-bold uppercase tracking-[0.12em] text-white">Foto ilustrasi sementara</p>
+          {/if}
         </div>
         <p class="eyebrow mt-5 text-clay">{item.kind === 'ARTIKEL' ? `${data.author || 'Jasa Perbaikan Bandung'} · ${Math.max(1, Math.ceil(item.body.split(/\s+/).filter(Boolean).length / 200))} menit` : item.category || data.location || 'Jasa Perbaikan Bandung'}</p>
         <h2 class="mt-4 font-display text-3xl font-bold leading-[1.03] tracking-[-0.03em] text-balance">{item.title}</h2>

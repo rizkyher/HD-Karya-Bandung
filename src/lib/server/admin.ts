@@ -4,13 +4,13 @@ import { cleanText, contentKinds, contentLabels, isSafeSlug, parseData, routeFor
 
 export const editableModules = contentKinds as Record<string, string>;
 export const fieldSets: Record<string, Array<{ key: string; label: string; multiline?: boolean }>> = {
-  LAYANAN: [{ key: 'suitable_for', label: 'Cocok untuk', multiline: true }, { key: 'problems', label: 'Masalah yang ditangani', multiline: true }, { key: 'scope', label: 'Scope pekerjaan', multiline: true }, { key: 'deliverables', label: 'Deliverables', multiline: true }, { key: 'process', label: 'Proses kerja', multiline: true }, { key: 'faq', label: 'FAQ (pertanyaan | jawaban)', multiline: true }],
-  PROYEK: [{ key: 'client', label: 'Klien (opsional)' }, { key: 'location', label: 'Lokasi' }, { key: 'sector', label: 'Sektor' }, { key: 'start_year', label: 'Tahun mulai' }, { key: 'end_year', label: 'Tahun selesai' }, { key: 'challenge', label: 'Tantangan', multiline: true }, { key: 'solution', label: 'Solusi', multiline: true }, { key: 'scope', label: 'Scope pekerjaan', multiline: true }, { key: 'result', label: 'Hasil', multiline: true }],
-  ARTIKEL: [{ key: 'author', label: 'Penulis' }],
-  GALERI: [{ key: 'media_id', label: 'ID media' }, { key: 'alt', label: 'Alt text' }, { key: 'caption', label: 'Caption', multiline: true }],
-  TESTIMONI: [{ key: 'position', label: 'Posisi' }, { key: 'company', label: 'Perusahaan' }, { key: 'quote', label: 'Kutipan', multiline: true }],
-  KLIEN: [{ key: 'partner_type', label: 'Tipe (CLIENT / PARTNER)' }, { key: 'website', label: 'Website' }, { key: 'logo_alt', label: 'Alt logo' }],
-  SERTIFIKASI: [{ key: 'issuer', label: 'Penerbit' }, { key: 'certificate_number', label: 'Nomor sertifikat' }, { key: 'issue_year', label: 'Tahun terbit' }, { key: 'expiration_date', label: 'Tanggal kedaluwarsa' }]
+  LAYANAN: [{ key: 'cover_media_id', label: 'Gambar layanan' }, { key: 'suitable_for', label: 'Cocok untuk', multiline: true }, { key: 'problems', label: 'Masalah yang ditangani', multiline: true }, { key: 'scope', label: 'Scope pekerjaan', multiline: true }, { key: 'deliverables', label: 'Deliverables', multiline: true }, { key: 'process', label: 'Proses kerja', multiline: true }, { key: 'faq', label: 'FAQ (pertanyaan | jawaban)', multiline: true }],
+  PROYEK: [{ key: 'cover_media_id', label: 'Gambar proyek' }, { key: 'client', label: 'Klien (opsional)' }, { key: 'location', label: 'Lokasi' }, { key: 'sector', label: 'Sektor' }, { key: 'start_year', label: 'Tahun mulai' }, { key: 'end_year', label: 'Tahun selesai' }, { key: 'challenge', label: 'Tantangan', multiline: true }, { key: 'solution', label: 'Solusi', multiline: true }, { key: 'scope', label: 'Scope pekerjaan', multiline: true }, { key: 'result', label: 'Hasil', multiline: true }],
+  ARTIKEL: [{ key: 'cover_media_id', label: 'Gambar artikel' }, { key: 'author', label: 'Penulis' }],
+  GALERI: [{ key: 'media_id', label: 'Gambar galeri' }, { key: 'alt', label: 'Alt text' }, { key: 'caption', label: 'Caption', multiline: true }],
+  TESTIMONI: [{ key: 'photo_media_id', label: 'Foto atau logo' }, { key: 'position', label: 'Posisi' }, { key: 'company', label: 'Perusahaan' }, { key: 'quote', label: 'Kutipan', multiline: true }],
+  KLIEN: [{ key: 'logo_media_id', label: 'Logo klien atau partner' }, { key: 'partner_type', label: 'Tipe (CLIENT / PARTNER)' }, { key: 'website', label: 'Website' }, { key: 'logo_alt', label: 'Alt logo' }],
+  SERTIFIKASI: [{ key: 'image_media_id', label: 'Gambar sertifikat' }, { key: 'pdf_media_id', label: 'File PDF sertifikat' }, { key: 'issuer', label: 'Penerbit' }, { key: 'certificate_number', label: 'Nomor sertifikat' }, { key: 'issue_year', label: 'Tahun terbit' }, { key: 'expiration_date', label: 'Tanggal kedaluwarsa' }]
 };
 
 export function kindFor(module: string) { return editableModules[module] ?? null; }
