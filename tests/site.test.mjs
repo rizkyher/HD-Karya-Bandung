@@ -44,6 +44,17 @@ test('provides an interactive admin tutorial with step navigation', () => {
   assert.doesNotMatch(dashboard, /\$state/);
 });
 
+test('guides admins through menus and fields with a visual tour', () => {
+  assert.ok(existsSync(new URL('../src/lib/components/AdminTutorial.svelte', import.meta.url)));
+  assert.match(read('../src/lib/components/AdminShell.svelte'), /AdminTutorial/);
+  assert.match(read('../src/routes/admin/+page.svelte'), /\?tutorial=1/);
+  const tutorial = read('../src/lib/components/AdminTutorial.svelte');
+  assert.match(tutorial, /goto\(/);
+  assert.match(tutorial, /box-shadow: 0 0 0 100vmax/);
+  assert.match(tutorial, /input\[name="company_name"\]/);
+  assert.match(tutorial, /textarea\[name="summary"\]/);
+});
+
 test('keeps every public destination in the shared navigation', () => {
   const shell = read('../src/lib/components/PublicShell.svelte');
   for (const route of ['/layanan', '/proyek', '/galeri', '/artikel', '/tentang-kami']) {
