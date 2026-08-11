@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import { cleanText, isSafeSlug, routeForKind } from '../src/lib/content.js';
+import { hasValidMediaSignature } from '../src/lib/server/media.js';
 
 test('content helpers preserve the safe public URL contract', () => {
   assert.equal(isSafeSlug('renovasi-rumah-bandung'), true);
@@ -23,4 +24,11 @@ test('keeps authentication and public inquiry abuse controls in place', () => {
   assert.match(auth, /password_iterations/);
   assert.match(inquiries, /inquiry_attempts/);
   assert.match(contact, /RATE_LIMITED/);
+});
+
+test('rejects uploads whose bytes do not match the claimed media type', () => {
+  assert.equal(hasValidMediaSignature(new Uint8Array([0xff, 0xd8, 0xff, 0x00]), 'image/jpeg'), true);
+  assert.equal(hasValidMediaSignature(new Uint8Array([0x89, 0x50, 0x4e, 0x47]), 'image/png'), true);
+  assert.equal(hasValidMediaSignature(new Uint8Array([0x3c, 0x73, 0x76, 0x67]), 'image/png'), false);
+  assert.equal(hasValidMediaSignature(new TextEncoder().encode('%PDF-1.7'), 'application/pdf'), true);
 });
