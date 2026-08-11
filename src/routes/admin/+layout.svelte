@@ -1,1 +1,1 @@
-<script lang="ts">import AdminShell from '$lib/components/AdminShell.svelte'; let { data, children }: { data: import('./$types').LayoutData; children: import('svelte').Snippet } = $props();</script><AdminShell user={data.user}>{@render children()}</AdminShell>
+<script lang="ts">import AdminShell from '$lib/components/AdminShell.svelte'; let { data, children }: { data: import('./$types').LayoutData; children: import('svelte').Snippet } = $props();</script>{#if data.user}<AdminShell user={data.user}>{@render children()}</AdminShell>{:else}{@render children()}{/if}

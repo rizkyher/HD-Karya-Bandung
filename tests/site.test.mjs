@@ -26,6 +26,12 @@ test('keeps the public and protected route foundations in SvelteKit', () => {
   }
 });
 
+test('renders the login page outside the authenticated admin shell', () => {
+  assert.match(read('../src/routes/admin/+layout.server.ts'), /url\.pathname !== '\/admin\/login'/);
+  assert.match(read('../src/routes/admin/+layout.svelte'), /\{#if data\.user\}/);
+  assert.match(read('../src/routes/admin/+layout.svelte'), /\{:else\}\{@render children\(\)\}/);
+});
+
 test('keeps every public destination in the shared navigation', () => {
   const shell = read('../src/lib/components/PublicShell.svelte');
   for (const route of ['/layanan', '/proyek', '/galeri', '/artikel', '/tentang-kami']) {
