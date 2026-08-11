@@ -6,3 +6,4 @@ dist/
 .wrangler/
 .svelte-kit/
 .dev.vars
+pet-runs/
