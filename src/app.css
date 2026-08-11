@@ -31,7 +31,7 @@
   .eyebrow { @apply text-xs font-bold tracking-[0.1em] uppercase; }
   .field-input { @apply min-h-12 w-full border border-stone bg-cloud px-4 py-3 font-normal text-ink transition-colors duration-200 placeholder:text-forest/70 focus:border-ink focus:outline-none; }
   .brand-mark { @apply relative block h-10 w-10 shrink-0 overflow-hidden border border-stone bg-white; }
-  .brand-mark img { width: 7rem; max-width: none; transform: translate(-2rem, -3.625rem); }
+  .brand-mark img { width: 4.875rem; max-width: none; transform: translate(-1.1875rem, -2.125rem); }
 }
 
 @media (prefers-reduced-motion: reduce) {
