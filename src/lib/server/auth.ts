@@ -1,5 +1,6 @@
 const encoder = new TextEncoder();
-const PBKDF2_ITERATIONS = 100_000;
+const PBKDF2_ITERATIONS = 600_000;
+const LEGACY_PBKDF2_ITERATIONS = 100_000;
 
 export type Role = 'SUPER_ADMIN' | 'EDITOR';
 export type AdminUser = { id: string; name: string; email: string; role: Role; status: 'ACTIVE' | 'DISABLED' };
@@ -17,9 +18,9 @@ export async function sha256(value: string) {
   return base64(new Uint8Array(digest));
 }
 
-export async function passwordHash(password: string, salt = crypto.getRandomValues(new Uint8Array(16))) {
+export async function passwordHash(password: string, salt = crypto.getRandomValues(new Uint8Array(16)), iterations = PBKDF2_ITERATIONS) {
   const key = await crypto.subtle.importKey('raw', encoder.encode(password), 'PBKDF2', false, ['deriveBits']);
-  const bits = await crypto.subtle.deriveBits({ name: 'PBKDF2', hash: 'SHA-256', salt, iterations: PBKDF2_ITERATIONS }, key, 256);
+  const bits = await crypto.subtle.deriveBits({ name: 'PBKDF2', hash: 'SHA-256', salt, iterations }, key, 256);
   return { hash: base64(new Uint8Array(bits)), salt: base64(salt) };
 }
 
@@ -29,8 +30,8 @@ function constantTimeEqual(left: Uint8Array, right: Uint8Array) {
   return difference === 0;
 }
 
-export async function verifyPassword(password: string, hash: string, salt: string) {
-  const candidate = await passwordHash(password, fromBase64(salt));
+export async function verifyPassword(password: string, hash: string, salt: string, iterations = LEGACY_PBKDF2_ITERATIONS) {
+  const candidate = await passwordHash(password, fromBase64(salt), iterations);
   return constantTimeEqual(encoder.encode(candidate.hash), encoder.encode(hash));
 }
 
@@ -42,6 +43,7 @@ export async function currentUser(env: Env, token: string | undefined): Promise<
 }
 
 export async function authenticate(env: Env, email: string, password: string, fingerprint: string) {
+  await env.DB.prepare("DELETE FROM login_attempts WHERE attempted_at < datetime('now', '-1 day')").run();
   const attempts = await env.DB.prepare("SELECT COUNT(*) AS total FROM login_attempts WHERE fingerprint = ? AND attempted_at > datetime('now', '-15 minutes')")
     .bind(await sha256(fingerprint))
     .first<{ total: number }>();
@@ -49,10 +51,17 @@ export async function authenticate(env: Env, email: string, password: string, fi
 
   const user = await env.DB.prepare("SELECT * FROM users WHERE email = ? AND status = 'ACTIVE'")
     .bind(email.toLowerCase())
-    .first<AdminUser & { password_hash: string; password_salt: string }>();
-  if (!user || !(await verifyPassword(password, user.password_hash, user.password_salt))) {
+    .first<AdminUser & { password_hash: string; password_salt: string; password_iterations?: number }>();
+  const iterations = Number(user?.password_iterations ?? LEGACY_PBKDF2_ITERATIONS);
+  if (!user || !(await verifyPassword(password, user.password_hash, user.password_salt, iterations))) {
     await env.DB.prepare('INSERT INTO login_attempts (id, fingerprint) VALUES (?, ?)').bind(crypto.randomUUID(), await sha256(fingerprint)).run();
     return { status: 'INVALID' as const };
+  }
+  if (iterations < PBKDF2_ITERATIONS) {
+    const credentials = await passwordHash(password);
+    await env.DB.prepare('UPDATE users SET password_hash = ?, password_salt = ?, password_iterations = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?')
+      .bind(credentials.hash, credentials.salt, PBKDF2_ITERATIONS, user.id)
+      .run();
   }
   return { status: 'OK' as const, user };
 }
