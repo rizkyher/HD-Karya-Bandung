@@ -9,6 +9,11 @@
     ['/artikel', 'Artikel'],
     ['/tentang-kami', 'Tentang']
   ];
+  const proofLinks = [
+    ['/testimoni', 'Testimoni'],
+    ['/mitra', 'Klien & partner'],
+    ['/sertifikasi', 'Sertifikasi']
+  ];
 
   const isActive = (href: string) => page.url.pathname === href || page.url.pathname.startsWith(`${href}/`);
 </script>
@@ -32,7 +37,7 @@
     <details class="relative xl:hidden">
       <summary class="grid min-h-11 min-w-11 cursor-pointer list-none place-items-center border border-ink text-lg" aria-label="Buka navigasi">☰</summary>
       <nav class="absolute right-0 top-[calc(100%+0.65rem)] z-20 grid w-64 gap-1 border border-stone bg-cloud p-3" aria-label="Navigasi mobile">
-        {#each links as link}
+        {#each [...links, ...proofLinks] as link}
           <a class={`p-3 text-sm font-bold hover:bg-mist ${isActive(link[0]) ? 'bg-mist text-clay' : ''}`} href={link[0]} aria-current={isActive(link[0]) ? 'page' : undefined}>{link[1]}</a>
         {/each}
         <a class="button-primary mt-2" href="/kontak" aria-current={isActive('/kontak') ? 'page' : undefined}>Kontak</a>
@@ -55,7 +60,7 @@
       <a class="font-bold text-clay hover:text-white" href="https://wa.me/6281222336489" target="_blank" rel="noreferrer">WhatsApp 081222336489 ↗</a>
       <a class="text-white/75 hover:text-white" href="mailto:Jasaperbaikanbandung@gmail.com">Jasaperbaikanbandung@gmail.com</a>
       <address class="max-w-xs not-italic text-white/75">Jl. Mukodar Tengah No. 240, Cibeureum, Cimahi Selatan, Kota Cimahi</address>
-      {#each links as link}
+      {#each [...links, ...proofLinks] as link}
         <a class="text-white/75 hover:text-white" href={link[0]}>{link[1]}</a>
       {/each}
     </div>

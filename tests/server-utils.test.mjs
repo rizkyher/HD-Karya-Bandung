@@ -22,6 +22,7 @@ test('keeps authentication and public inquiry abuse controls in place', () => {
   const contact = readFileSync(new URL('../src/routes/kontak/+page.server.ts', import.meta.url), 'utf8');
   assert.match(auth, /PBKDF2_ITERATIONS = 600_000/);
   assert.match(auth, /password_iterations/);
+  assert.match(auth, /credentials\.iterations/);
   assert.match(inquiries, /inquiry_attempts/);
   assert.match(contact, /RATE_LIMITED/);
 });

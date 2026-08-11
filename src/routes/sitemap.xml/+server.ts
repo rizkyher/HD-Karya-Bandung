@@ -1,3 +1,13 @@
 import type { RequestHandler } from './$types';
 import { routeForKind } from '$lib/content.js';
-export const GET: RequestHandler = async ({ url, platform }) => { const fixed = ['/', '/tentang-kami', '/layanan', '/proyek', '/galeri', '/artikel', '/kontak']; const rows = platform?.env ? await platform.env.DB.prepare("SELECT kind, slug, updated_at FROM content_items WHERE status = 'PUBLISHED' AND index_status = 'INDEX_FOLLOW' AND slug IS NOT NULL").all<{ kind: string; slug: string; updated_at: string }>() : { results: [] }; const entries = [...fixed.map((path) => ({ path, lastmod: new Date().toISOString().slice(0, 10) })), ...rows.results.map((row) => ({ path: `/${routeForKind(row.kind)}/${row.slug}`, lastmod: row.updated_at.slice(0, 10) }))]; const escape = (value: string) => value.replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&apos;' })[char]!); const body = `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${entries.map((entry) => `<url><loc>${escape(new URL(entry.path, url).toString())}</loc><lastmod>${escape(entry.lastmod)}</lastmod></url>`).join('')}</urlset>`; return new Response(body, { headers: { 'Content-Type': 'application/xml; charset=utf-8', 'Cache-Control': 'public, max-age=3600' } }); };
+
+export const GET: RequestHandler = async ({ url, platform }) => {
+  const fixed = ['/', '/tentang-kami', '/layanan', '/proyek', '/galeri', '/artikel', '/testimoni', '/mitra', '/sertifikasi', '/kontak'];
+  const rows = platform?.env
+    ? await platform.env.DB.prepare("SELECT kind, slug, updated_at FROM content_items WHERE status = 'PUBLISHED' AND index_status = 'INDEX_FOLLOW' AND slug IS NOT NULL AND kind IN ('LAYANAN', 'PROYEK', 'ARTIKEL')").all<{ kind: string; slug: string; updated_at: string }>()
+    : { results: [] };
+  const entries = [...fixed.map((path) => ({ path, lastmod: new Date().toISOString().slice(0, 10) })), ...rows.results.map((row) => ({ path: `/${routeForKind(row.kind)}/${row.slug}`, lastmod: row.updated_at.slice(0, 10) }))];
+  const escape = (value: string) => value.replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&apos;' })[char]!);
+  const body = `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${entries.map((entry) => `<url><loc>${escape(new URL(entry.path, url).toString())}</loc><lastmod>${escape(entry.lastmod)}</lastmod></url>`).join('')}</urlset>`;
+  return new Response(body, { headers: { 'Content-Type': 'application/xml; charset=utf-8', 'Cache-Control': 'public, max-age=3600' } });
+};

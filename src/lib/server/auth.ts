@@ -1,5 +1,5 @@
 const encoder = new TextEncoder();
-const PBKDF2_ITERATIONS = 600_000;
+export const PBKDF2_ITERATIONS = 600_000;
 const LEGACY_PBKDF2_ITERATIONS = 100_000;
 
 export type Role = 'SUPER_ADMIN' | 'EDITOR';
@@ -21,7 +21,7 @@ export async function sha256(value: string) {
 export async function passwordHash(password: string, salt = crypto.getRandomValues(new Uint8Array(16)), iterations = PBKDF2_ITERATIONS) {
   const key = await crypto.subtle.importKey('raw', encoder.encode(password), 'PBKDF2', false, ['deriveBits']);
   const bits = await crypto.subtle.deriveBits({ name: 'PBKDF2', hash: 'SHA-256', salt, iterations }, key, 256);
-  return { hash: base64(new Uint8Array(bits)), salt: base64(salt) };
+  return { hash: base64(new Uint8Array(bits)), salt: base64(salt), iterations };
 }
 
 function constantTimeEqual(left: Uint8Array, right: Uint8Array) {

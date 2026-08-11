@@ -93,6 +93,22 @@ test('keeps every public destination in the shared navigation', () => {
   assert.match(shell, /button-primary mt-2" href="\/kontak"[^>]*>Kontak<\/a>/);
 });
 
+test('publishes trust content without adding broken detail URLs to the sitemap', () => {
+  for (const route of ['testimoni', 'mitra', 'sertifikasi']) {
+    assert.ok(existsSync(new URL(`../src/routes/${route}/+page.svelte`, import.meta.url)));
+    assert.ok(existsSync(new URL(`../src/routes/${route}/+page.server.ts`, import.meta.url)));
+  }
+  assert.match(read('../src/routes/sitemap.xml/+server.ts'), /kind IN \('LAYANAN', 'PROYEK', 'ARTIKEL'\)/);
+});
+
+test('keeps production safeguards and automation in the repository', () => {
+  assert.match(read('../src/hooks.server.ts'), /Strict-Transport-Security/);
+  assert.match(read('../src/app.html'), /rel="icon"/);
+  assert.ok(existsSync(new URL('../src/routes/favicon.ico/+server.ts', import.meta.url)));
+  const workflow = read('../.github/workflows/ci.yml');
+  for (const command of ['npm ci', 'npm test', 'npm run check', 'npm run build', 'npm audit --omit=dev']) assert.match(workflow, new RegExp(command.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+});
+
 test('shares a polished visual foundation across public pages', () => {
   assert.ok(existsSync(new URL('../src/lib/components/PageIntro.svelte', import.meta.url)));
   assert.match(read('../src/app.css'), /--ease-out-expo/);
