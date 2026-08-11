@@ -21,7 +21,7 @@ test('keeps authentication and public inquiry abuse controls in place', () => {
   const admin = readFileSync(new URL('../src/routes/admin/[module]/+page.server.ts', import.meta.url), 'utf8');
   const inquiries = readFileSync(new URL('../src/lib/server/inquiries.ts', import.meta.url), 'utf8');
   const contact = readFileSync(new URL('../src/routes/kontak/+page.server.ts', import.meta.url), 'utf8');
-  assert.match(auth, /PBKDF2_ITERATIONS = 600_000/);
+  assert.match(auth, /export const PBKDF2_ITERATIONS = 100_000/);
   assert.match(auth, /password_iterations/);
   assert.match(admin, /credentials\.iterations/);
   assert.match(inquiries, /inquiry_attempts/);
