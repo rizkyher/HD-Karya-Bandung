@@ -33,7 +33,11 @@
     const mobile = window.matchMedia('(max-width: 1023px)').matches;
     const target = targetFor(mobile && step.mobileSelector ? step.mobileSelector : step.selector);
     if (!target) { spot = null; return; }
-    if (scroll) target.scrollIntoView({ block: mobile ? 'start' : 'center', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+    if (scroll && mobile) {
+      window.scrollBy({ top: target.getBoundingClientRect().top - Math.max(96, window.innerHeight * 0.28), behavior: 'auto' });
+    } else if (scroll) {
+      target.scrollIntoView({ block: 'center', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+    }
     const rect = target.getBoundingClientRect();
     spot = { top: rect.top - 6, left: rect.left - 6, width: rect.width + 12, height: rect.height + 12 };
   }

@@ -62,6 +62,7 @@ test('guides admins through menus and fields with a visual tour', () => {
   assert.match(tutorial, /box-shadow: 0 0 0 100vmax/);
   assert.match(tutorial, /mobileSelector: 'header details > summary'/);
   assert.match(tutorial, /max-h-\[52dvh\]/);
+  assert.match(tutorial, /window\.scrollBy/);
   assert.match(tutorial, /input\[name="company_name"\]/);
   assert.match(tutorial, /textarea\[name="summary"\]/);
 });
