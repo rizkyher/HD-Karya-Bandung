@@ -14,17 +14,18 @@
 }
 
 @layer base {
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; scroll-padding-top: 6rem; }
   body { @apply bg-cloud font-sans text-ink antialiased; }
   *, ::before, ::after { box-sizing: border-box; }
+  a, button { touch-action: manipulation; }
   :focus-visible { outline: 3px solid var(--color-clay); outline-offset: 3px; }
   ::selection { background: color-mix(in oklch, var(--color-clay) 28%, white); }
 }
 
 @layer components {
   .page-shell { @apply mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-12; }
-  .button-primary { @apply inline-flex min-h-12 items-center justify-center gap-2 bg-clay px-5 py-3 text-sm font-bold text-white transition-colors duration-300 hover:bg-ink focus-visible:bg-ink; }
-  .button-secondary { @apply inline-flex min-h-12 items-center justify-center gap-2 border border-ink px-5 py-3 text-sm font-bold text-ink transition-colors duration-300 hover:bg-ink hover:text-white; }
+  .button-primary { @apply inline-flex min-h-12 items-center justify-center gap-2 bg-clay px-5 py-3 text-sm font-bold text-white transition-[transform,background-color,color] duration-300 ease-[var(--ease-out-expo)] hover:-translate-y-0.5 hover:bg-ink active:translate-y-0 active:scale-[0.98] focus-visible:bg-ink; }
+  .button-secondary { @apply inline-flex min-h-12 items-center justify-center gap-2 border border-ink px-5 py-3 text-sm font-bold text-ink transition-[transform,background-color,color] duration-300 ease-[var(--ease-out-expo)] hover:-translate-y-0.5 hover:bg-ink hover:text-white active:translate-y-0 active:scale-[0.98]; }
   .text-link { @apply inline-flex items-center gap-2 border-b border-current pb-1 text-sm font-bold transition-colors duration-300 hover:text-clay; }
   .page-title { @apply max-w-4xl font-display text-[clamp(2.8rem,7vw,5.5rem)] font-bold leading-[0.96] tracking-[-0.035em] text-balance; }
   .section-title { @apply max-w-3xl font-display text-[clamp(2.25rem,4.6vw,4.5rem)] font-bold leading-[1] tracking-[-0.03em] text-balance; }
@@ -32,6 +33,14 @@
   .field-input { @apply min-h-12 w-full border border-stone bg-cloud px-4 py-3 font-normal text-ink transition-colors duration-200 placeholder:text-forest/70 focus:border-ink focus:outline-none; }
   .brand-mark { @apply relative block h-10 w-10 shrink-0 overflow-hidden border border-stone bg-white; }
   .brand-mark img { width: 4.875rem; max-width: none; transform: translate(-1.1875rem, -2.125rem); }
+  .motion-enter { animation: rise-in 700ms var(--ease-out-expo) both; }
+  .motion-enter-delay { animation-delay: 120ms; }
+  .motion-enter-delay-2 { animation-delay: 220ms; }
+}
+
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(1.25rem); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @media (prefers-reduced-motion: reduce) {

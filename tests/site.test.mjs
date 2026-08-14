@@ -90,7 +90,7 @@ test('keeps every public destination in the shared navigation', () => {
   assert.match(shell, /aria-current=\{isActive\(link\[0\]\) \? 'page' : undefined\}/);
   assert.match(shell, /page\.url\.pathname\.startsWith\(`\$\{href\}\/`\)/);
   assert.match(shell, /href="\/kontak"[^>]*>Kontak <span/);
-  assert.match(shell, /button-primary mt-2" href="\/kontak"[^>]*>Kontak<\/a>/);
+  assert.match(shell, /button-primary mt-2" href="\/kontak"[^>]*>Konsultasi gratis/);
 });
 
 test('publishes trust content without adding broken detail URLs to the sitemap', () => {
@@ -124,9 +124,26 @@ test('keeps mobile navigation visible and offers a back-to-top control', () => {
   const shell = read('../src/lib/components/PublicShell.svelte');
   assert.match(shell, /<header[^>]*class="[^"]*sticky/);
   assert.match(shell, /hidden items-center gap-5 text-sm font-bold md:flex/);
-  assert.match(shell, /<details class="relative md:hidden">/);
+  assert.match(shell, /aria-controls="mobile-navigation"/);
   assert.match(shell, /aria-label="Kembali ke atas"/);
   assert.match(shell, /href="#content"/);
+});
+
+test('uses one accessible scroll owner and keeps contact actions reachable on mobile', () => {
+  assert.ok(existsSync(new URL('../src/lib/components/SmoothScroll.svelte', import.meta.url)));
+  const smoothScroll = read('../src/lib/components/SmoothScroll.svelte');
+  const layout = read('../src/routes/+layout.svelte');
+  const shell = read('../src/lib/components/PublicShell.svelte');
+
+  assert.match(smoothScroll, /import Lenis from 'lenis'/);
+  assert.match(smoothScroll, /autoRaf: true/);
+  assert.match(smoothScroll, /anchors:/);
+  assert.match(smoothScroll, /lenis\.destroy\(\)/);
+  assert.match(layout, /SmoothScroll/);
+  assert.match(shell, /aria-expanded=\{menuOpen\}/);
+  assert.match(shell, /data-lenis-prevent/);
+  assert.match(shell, /mobile-action-dock/);
+  assert.match(shell, /Chat WhatsApp/);
 });
 
 test('ships clearly labeled dummy visuals for public content states', () => {
