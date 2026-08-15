@@ -1,38 +1,33 @@
-# Plan — SvelteKit & Tailwind Migration
+# Plan — Status implementasi
 
 ## Objective
 
-Move HD Karya Bandung from the custom Worker HTML renderer to SvelteKit with
-Tailwind CSS, while preserving the existing Cloudflare Worker, D1, R2, SEO,
-and authenticated admin capabilities.
+Menyediakan website publik dan workspace admin Jasa Perbaikan Bandung berbasis
+SvelteKit dan Cloudflare Workers, dengan konten yang dapat dikelola tanpa
+mengorbankan keamanan, SEO, atau pengalaman mobile.
 
-## Constraints
+## Status
 
-- Keep the existing D1 schema and R2 bucket; content and accounts must survive.
-- Keep all public SEO routes and all admin route permissions server-side.
-- Keep the current conservative, factual copy: no invented portfolio, address,
-  phone, certification, or testimonial claims.
-- Build SvelteKit for the existing Cloudflare Worker using `adapter-cloudflare`.
-- Use Tailwind v4 via the Vite plugin; avoid a second component-library layer.
+- [x] Fondasi SvelteKit, Tailwind v4, Cloudflare adapter, dan binding platform.
+- [x] Akses D1/R2, autentikasi sesi, header keamanan, endpoint SEO, serta
+  inquiry server-side.
+- [x] Halaman publik untuk layanan, proyek, galeri, artikel, kontak, dan konten
+  pendukung kepercayaan.
+- [x] Workspace admin dengan CRUD konten/media, pengaturan, inquiry, pengguna,
+  audit log, dan tur terpandu.
+- [x] Optimasi mobile: menu aksesibel, dock tindakan cepat, motion terukur, dan
+  Lenis yang mengikuti reduced motion.
+- [x] Pengujian, build, audit dependensi produksi, dan deploy Cloudflare Worker.
 
-## Delivery slices
+## Batasan yang tetap berlaku
 
-1. Establish SvelteKit, Tailwind, Cloudflare adapter, type-safe platform
-   bindings, and regression tests for shared routing/validation helpers.
-2. Port auth, D1/R2 access, security headers, SEO endpoints, and inquiry
-   submission as SvelteKit server code.
-3. Rebuild the public site around clear service discovery, evidence-led project
-   pages, useful articles, and a direct consultation path.
-4. Rebuild the admin shell and module flows with reusable controls, responsive
-   tables, legible empty states, and persistent CRUD actions.
-5. Check types/build/tests, test login and a content save against Cloudflare,
-   then deploy and verify the production Worker.
+- Pertahankan skema D1 dan bucket R2 yang ada; jangan reset data produksi.
+- Izin admin harus tetap diperiksa di server.
+- Jangan menciptakan klaim portofolio, alamat, nomor, sertifikasi, atau
+  testimoni yang tidak didukung konten.
+- Konten publik dan admin harus tetap nyaman dipakai di layar kecil.
 
-## UX direction
+## Operasi berkelanjutan
 
-- Public: calm but confident construction brand, prioritising what HD Karya
-  Bandung does, how engagement works, and the next safe action.
-- Admin: a practical work surface with a consistent action bar, readable table
-  density, one-column mobile forms, and labels that never truncate.
-- Accessibility: semantic landmarks, visible focus, sufficient contrast,
-  keyboard navigation, responsive menu/drawer, and reduced-motion support.
+Setiap perubahan berikutnya mengikuti urutan: uji lokal, typecheck, build,
+audit dependensi produksi, deploy, lalu verifikasi route publik dan login admin.

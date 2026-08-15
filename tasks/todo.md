@@ -1,10 +1,12 @@
-- [ ] Add the SvelteKit + Tailwind foundation and Cloudflare adapter.
-  - Acceptance: `npm run check` and `npm run build` pass with the Worker bindings typed.
-- [ ] Preserve D1/R2 data access, secure session auth, redirects, media and inquiry handling.
-  - Acceptance: no schema reset; public queries and protected admin routes work server-side.
-- [ ] Deliver public pages with consistent metadata and responsive conversion paths.
-  - Acceptance: homepage, services, projects, articles, contact, details, robots and sitemap render without layout artifacts.
-- [ ] Deliver usable admin routes and CRUD workflows.
-  - Acceptance: dashboard, all content modules, inquiry workflow, settings, users and audit log stay role-protected and labels do not truncate.
-- [ ] Run checks, inspect the live routes, and deploy to the configured Cloudflare Worker.
-  - Acceptance: production build is deployed and login plus one public route respond correctly.
+# Todo
+
+Tidak ada pekerjaan implementasi yang tertunda dari rencana migrasi awal.
+
+## Checklist rilis berikutnya
+
+- [ ] Jalankan `npm test`, `npm run check`, dan `npm run build`.
+- [ ] Jalankan `npm audit --omit=dev`.
+- [ ] Jika ada perubahan skema, ikuti [MIGRATIONS.md](../MIGRATIONS.md) sebelum
+  deploy.
+- [ ] Verifikasi beranda, menu mobile, `robots.txt`, `sitemap.xml`, dan login
+  admin setelah deploy.

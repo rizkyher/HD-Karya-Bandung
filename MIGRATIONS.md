@@ -1,5 +1,25 @@
 # Database migrations
 
-Migration yang sudah diterapkan di database produksi bersifat historis dan tidak boleh diubah atau diganti nama. Dua berkas bernomor `0004` tetap dipertahankan karena keduanya sudah tercatat sebagai diterapkan di produksi.
+Migrasi produksi adalah riwayat permanen: jangan mengubah, memindahkan, atau
+mengganti nama berkas yang pernah diterapkan. Khusus nomor `0004`, dua berkas
+tetap dipertahankan karena keduanya sudah tercatat di produksi.
 
-Untuk perubahan baru, gunakan nomor berikutnya setelah migrasi terakhir yang tercatat oleh `wrangler d1 migrations list`; migrasi terakhir saat ini adalah `0006`, sehingga migrasi baru dimulai dari `0007`. Selalu jalankan migrasi remote sebelum menerapkan Worker yang membutuhkan skema baru.
+## Riwayat saat ini
+
+| Nomor | Tujuan |
+| --- | --- |
+| `0001` | Skema awal. |
+| `0002` | Konten profil perusahaan dan katalog layanan. |
+| `0003` | Judul hero yang lebih ringkas. |
+| `0004` | Penyelarasan copy layanan dan penggantian istilah layanan kayu. |
+| `0005` | Identitas merek dan detail kontak. |
+| `0006` | Pengamanan dan pembatasan inquiry. |
+
+## Menambah migrasi
+
+1. Periksa riwayat remote dengan `wrangler d1 migrations list hd-karya-bandung`.
+2. Gunakan nomor berikutnya yang belum tercatat; setelah `0006`, nomor kandidat
+   berikutnya adalah `0007`.
+3. Uji di lokal dengan `npm run d1:migrate:local`.
+4. Terapkan migrasi remote sebelum deploy Worker yang membutuhkan skema baru.
+5. Jangan mereset D1 produksi atau mengedit migrasi historis.
