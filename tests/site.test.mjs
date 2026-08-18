@@ -80,6 +80,18 @@ test('lets editors select uploaded media and shows it on public content', () => 
   assert.match(mediaLibrary, /\/media\/\$\{row\.id\}/);
 });
 
+test('lets admins select an uploaded project photo for the homepage hero', () => {
+  const adminPage = read('../src/routes/admin/[module]/+page.svelte');
+  const adminActions = read('../src/routes/admin/[module]/+page.server.ts');
+  const home = read('../src/routes/+page.svelte');
+  assert.match(adminPage, /name="hero_media_id"/);
+  assert.match(adminPage, /MediaPicker/);
+  assert.match(adminActions, /hero_media_id/);
+  assert.match(adminActions, /page_content.*json_extract\(data, '\$\.media_id'\)/);
+  assert.match(home, /\/media\/\$\{hero\.media_id\}/);
+  assert.match(home, /hero\.media_alt/);
+});
+
 test('keeps every public destination in the shared navigation', () => {
   const shell = read('../src/lib/components/PublicShell.svelte');
   for (const route of ['/layanan', '/proyek', '/galeri', '/artikel', '/tentang-kami']) {
