@@ -120,10 +120,11 @@ test('shares a polished visual foundation across public pages', () => {
   assert.match(read('../src/routes/kontak/+page.svelte'), /field-input/);
 });
 
-test('keeps mobile navigation visible and offers a back-to-top control', () => {
+test('shows the complete navigation on wide screens and offers a back-to-top control', () => {
   const shell = read('../src/lib/components/PublicShell.svelte');
   assert.match(shell, /<header[^>]*class="[^"]*sticky/);
-  assert.match(shell, /hidden items-center gap-5 text-sm font-bold md:flex/);
+  assert.match(shell, /hidden items-center gap-4 text-sm font-bold xl:flex/);
+  assert.match(shell, /\{#each \[\.\.\.links, \.\.\.proofLinks\] as link\}/);
   assert.match(shell, /aria-controls="mobile-navigation"/);
   assert.match(shell, /aria-label="Kembali ke atas"/);
   assert.match(shell, /href="#content"/);

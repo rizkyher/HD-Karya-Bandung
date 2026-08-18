@@ -38,14 +38,14 @@
       <span>Jasa Perbaikan<br />Bandung</span>
     </a>
 
-    <nav class="hidden items-center gap-5 text-sm font-bold md:flex" aria-label="Navigasi utama">
-      {#each links as link}
+    <nav class="hidden items-center gap-4 text-sm font-bold xl:flex" aria-label="Navigasi utama">
+      {#each [...links, ...proofLinks] as link}
         <a class={`border-b-2 py-7 transition-colors hover:text-clay ${isActive(link[0]) ? 'border-clay text-clay' : 'border-transparent'}`} href={link[0]} aria-current={isActive(link[0]) ? 'page' : undefined}>{link[1]}</a>
       {/each}
       <a class="button-primary min-h-10 px-4 py-2" href="/kontak" aria-current={isActive('/kontak') ? 'page' : undefined}>Kontak <span aria-hidden="true">↗</span></a>
     </nav>
 
-    <button class="grid min-h-11 min-w-11 cursor-pointer place-items-center border border-ink transition-[background-color,color,transform] duration-200 active:scale-95 md:hidden" type="button" aria-controls="mobile-navigation" aria-expanded={menuOpen} aria-label={menuOpen ? 'Tutup navigasi' : 'Buka navigasi'} onclick={() => (menuOpen = !menuOpen)}>
+    <button class="grid min-h-11 min-w-11 cursor-pointer place-items-center border border-ink transition-[background-color,color,transform] duration-200 active:scale-95 xl:hidden" type="button" aria-controls="mobile-navigation" aria-expanded={menuOpen} aria-label={menuOpen ? 'Tutup navigasi' : 'Buka navigasi'} onclick={() => (menuOpen = !menuOpen)}>
       {#if menuOpen}
         <svg viewBox="0 0 24 24" aria-hidden="true" class="h-5 w-5 fill-none stroke-current stroke-2"><path d="m6 6 12 12M18 6 6 18" /></svg>
       {:else}
@@ -56,8 +56,8 @@
 </header>
 
 {#if menuOpen}
-  <button class="fixed inset-x-0 bottom-0 top-20 z-40 bg-ink/30 backdrop-blur-[1px] md:hidden" type="button" aria-label="Tutup navigasi" onclick={closeMenu}></button>
-  <nav id="mobile-navigation" data-lenis-prevent class="fixed inset-x-3 top-[5.5rem] z-50 grid max-h-[calc(100dvh-6.5rem)] gap-1 overflow-y-auto border border-stone bg-cloud p-3 shadow-[0_1.5rem_3rem_rgba(8,18,12,0.16)] md:hidden" aria-label="Navigasi mobile">
+  <button class="fixed inset-x-0 bottom-0 top-20 z-40 bg-ink/30 backdrop-blur-[1px] xl:hidden" type="button" aria-label="Tutup navigasi" onclick={closeMenu}></button>
+  <nav id="mobile-navigation" data-lenis-prevent class="fixed inset-x-3 top-[5.5rem] z-50 grid max-h-[calc(100dvh-6.5rem)] gap-1 overflow-y-auto border border-stone bg-cloud p-3 shadow-[0_1.5rem_3rem_rgba(8,18,12,0.16)] xl:hidden" aria-label="Navigasi mobile">
     <p class="eyebrow px-3 pb-2 pt-1 text-clay">Jelajahi website</p>
     {#each [...links, ...proofLinks] as link}
       <a class={`p-3 text-sm font-bold transition-colors duration-200 hover:bg-mist ${isActive(link[0]) ? 'bg-mist text-clay' : ''}`} href={link[0]} aria-current={isActive(link[0]) ? 'page' : undefined} onclick={closeMenu}>{link[1]}</a>
