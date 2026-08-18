@@ -123,19 +123,20 @@ test('links published portfolio entries to their dedicated detail pages', () => 
   assert.match(grid, /\{#if item\.kind !== 'GALERI'\}/);
 });
 
-test('filters and paginates portfolio entries through the URL', () => {
-  const loader = read('../src/routes/portofolio/+page.server.ts');
-  const page = read('../src/routes/portofolio/+page.svelte');
-  assert.match(loader, /url\.searchParams\.get\('kategori'\)/);
-  assert.match(loader, /url\.searchParams\.get\('halaman'\)/);
-  assert.match(loader, /LIMIT \? OFFSET \?/);
-  assert.match(page, /Filter portofolio/);
-  assert.match(page, /Halaman \{data\.page\} dari \{data\.pageCount\}/);
-  assert.match(page, /aria-label="Filter portofolio"/);
-  assert.match(page, /portfolioUrl\(1, ''\)/);
-  assert.match(page, /portfolioUrl\(data\.page - 1\)/);
-  assert.match(page, /portfolioUrl\(data\.page \+ 1\)/);
-  assert.match(page, /object-contain/);
+test('organizes and paginates portfolio entries through category URLs', () => {
+  const landingLoader = read('../src/routes/portofolio/+page.server.ts');
+  const categoryLoader = read('../src/routes/portofolio/[slug]/+page.server.ts');
+  const categoryPage = read('../src/routes/portofolio/[slug]/+page.svelte');
+  const cms = read('../src/lib/server/cms.ts');
+  assert.match(landingLoader, /url\.searchParams\.get\('kategori'\)/);
+  assert.match(landingLoader, /url\.searchParams\.get\('halaman'\)/);
+  assert.match(categoryLoader, /url\.searchParams\.get\('halaman'\)/);
+  assert.match(cms, /LIMIT \? OFFSET \?/);
+  assert.match(categoryPage, /Halaman \{data\.page\} dari \{data\.pageCount\}/);
+  assert.match(categoryPage, /data\.page - 1/);
+  assert.match(categoryPage, /data\.page \+ 1/);
+  assert.match(read('../src/lib/components/PortfolioGallery.svelte'), /h-auto w-full/);
+  assert.match(read('../src/lib/components/PortfolioLightbox.svelte'), /object-contain/);
 });
 
 test('permanently redirects legacy project and gallery URLs while keeping query parameters', () => {

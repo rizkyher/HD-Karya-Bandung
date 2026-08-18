@@ -17,6 +17,7 @@
 
   let menuOpen = $state(false);
   let showBackToTop = $state(false);
+  let showMobileActionDock = $derived(!page.url.pathname.startsWith('/portofolio'));
   const isActive = (href: string) => page.url.pathname === href || page.url.pathname.startsWith(`${href}/`);
   const closeMenu = () => (menuOpen = false);
 
@@ -68,19 +69,19 @@
 {@render children()}
 
 {#if showBackToTop}
-  <a class="fixed bottom-20 right-4 z-30 grid min-h-11 min-w-11 place-items-center border border-ink bg-ink text-lg text-white transition-[transform,background-color] duration-300 ease-[var(--ease-out-expo)] hover:-translate-y-1 hover:bg-clay focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink md:bottom-5 md:right-5" href="#content" aria-label="Kembali ke atas">
+  <a class={`fixed right-4 z-30 grid min-h-11 min-w-11 place-items-center border border-ink bg-ink text-lg text-white transition-[transform,background-color] duration-300 ease-[var(--ease-out-expo)] hover:-translate-y-1 hover:bg-clay focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink md:bottom-5 md:right-5 ${showMobileActionDock ? 'bottom-20' : 'bottom-4'}`} href="#content" aria-label="Kembali ke atas">
     <svg viewBox="0 0 24 24" aria-hidden="true" class="h-5 w-5 fill-none stroke-current stroke-2"><path d="M12 19V5m0 0-5 5m5-5 5 5" /></svg>
   </a>
 {/if}
 
-{#if !menuOpen}
+{#if !menuOpen && showMobileActionDock}
   <aside class="mobile-action-dock fixed inset-x-0 bottom-0 z-40 grid grid-cols-2 gap-2 border-t border-stone bg-cloud/95 px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 backdrop-blur md:hidden" aria-label="Aksi cepat">
     <a class="button-secondary min-h-11 px-3 text-xs" href="https://wa.me/6281222336489" target="_blank" rel="noreferrer">Chat WhatsApp</a>
     <a class="button-primary min-h-11 px-3 text-xs" href="/kontak">Konsultasi <span aria-hidden="true">↗</span></a>
   </aside>
 {/if}
 
-<footer class="bg-ink pb-20 text-white md:pb-0">
+<footer class={`bg-ink text-white md:pb-0 ${showMobileActionDock ? 'pb-20' : ''}`}>
   <div class="page-shell grid gap-10 py-12 md:grid-cols-[1.1fr_0.9fr]">
     <div>
       <p class="font-display text-3xl font-bold tracking-[-0.04em]">Ruang yang lebih siap untuk dipakai.</p>

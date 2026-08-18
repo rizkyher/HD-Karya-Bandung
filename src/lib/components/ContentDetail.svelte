@@ -29,13 +29,16 @@
 
       <header class="max-w-5xl">
         <p class="eyebrow text-clay">{item.category || (item.kind === 'ARTIKEL' ? data.author || 'Jasa Perbaikan Bandung' : 'Jasa Perbaikan Bandung')}</p>
-        <h1 class="page-title mt-5">{item.title}</h1>
+        <h1 class={`${item.kind === 'PROYEK' ? 'max-w-4xl font-display text-[clamp(2.4rem,10vw,5rem)] font-bold leading-[0.98] tracking-[-0.035em] text-balance' : 'page-title'} mt-5`}>{item.title}</h1>
         <p class="mt-7 max-w-3xl text-xl leading-8 text-forest">{item.summary}</p>
         {#if item.kind === 'ARTIKEL'}<p class="mt-5 text-sm font-bold text-forest">{data.author || 'Jasa Perbaikan Bandung'} · Estimasi {Math.max(1, Math.ceil(item.body.split(/\s+/).filter(Boolean).length / 200))} menit baca</p>{/if}
       </header>
 
       {#if mediaId}
-        <figure class="mt-12 overflow-hidden border border-stone bg-mist"><img class="aspect-[16/9] w-full object-contain" src={`/media/${mediaId}`} alt={item.media_alt || data.alt || item.title} width="1600" height="900" /></figure>
+        <figure class="mt-10 overflow-hidden border border-stone bg-mist p-3 sm:mt-12 sm:p-5">
+          <img class="mx-auto max-h-[72dvh] w-full object-contain" src={`/media/${mediaId}`} alt={item.media_alt || data.alt || item.title} width="1600" height="900" />
+          <figcaption class="mt-3 flex items-center justify-between gap-4 border-t border-stone pt-3 text-sm text-forest"><span>{item.media_alt || data.alt || item.title}</span><a class="shrink-0 font-bold text-ink underline underline-offset-4 hover:text-clay" href={`/media/${mediaId}`} target="_blank" rel="noreferrer">Buka foto penuh ↗</a></figcaption>
+        </figure>
       {/if}
 
       {#if facts.length}

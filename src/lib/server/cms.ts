@@ -7,6 +7,16 @@ export type ContentItem = {
   index_status: string; featured: number; published_at: string | null; updated_at: string; media_alt: string | null;
 };
 
+export const portfolioCategories = [
+  { slug: 'renovasi-pengecatan', category: 'Jasa Renovasi & Pengecatan Ulang', coverTitle: 'Basement DPRD Bandung', name: 'Renovasi & Pengecatan', description: 'Perbaikan ruang, pembaruan interior, dan pengecatan ulang untuk rumah, kantor, sekolah, tempat ibadah, serta fasilitas usaha.' },
+  { slug: 'furniture-kayu', category: 'Jasa Perbaikan Lemari, Pintu, dan Meja Kayu', coverTitle: 'Buah Batu Regency', name: 'Furniture Kayu', description: 'Dokumentasi perbaikan lemari, pintu, meja, sofa pantry, dan furniture kayu lainnya.' },
+  { slug: 'instalasi-listrik', category: 'Jasa Instalasi/Relokasi Listrik', coverTitle: 'Pasang Jalur HDMI', name: 'Instalasi & Relokasi Listrik', description: 'Pemasangan jalur, pembaruan instalasi, serta relokasi saklar dan stop kontak.' },
+  { slug: 'kusen-aluminium', category: 'Pengerjaan Kusen Aluminium', coverTitle: 'PT. Pakar Biomedika Bandung', name: 'Kusen Aluminium', description: 'Pengerjaan kusen, pintu, jendela, dan partisi aluminium untuk berbagai jenis ruang.' }
+] as const;
+
+export type PortfolioCategory = (typeof portfolioCategories)[number];
+export type PortfolioMediaItem = ContentItem & { media_width: number | null; media_height: number | null };
+
 export const contentSections = ['hero', 'about', 'services_home', 'projects_home', 'why_hd', 'process', 'final_cta'] as const;
 
 export async function listPublished(env: Env | undefined, kind: ContentKind, limit = 24) {
@@ -19,9 +29,39 @@ export async function listPublished(env: Env | undefined, kind: ContentKind, lim
 
 export async function listPortfolioCovers(env: Env | undefined) {
   if (!env) return [] as ContentItem[];
-  const rows = await env.DB.prepare("SELECT c.id, c.kind, c.title, c.slug, c.category, c.summary, c.body, c.data, c.seo_title, c.meta_description, c.canonical_url, c.index_status, c.featured, c.published_at, c.updated_at, m.alt AS media_alt FROM content_items c LEFT JOIN media m ON m.id = json_extract(c.data, '$.cover_media_id') WHERE c.kind = 'PROYEK' AND c.status = 'PUBLISHED' AND json_extract(c.data, '$.portfolio_cover') IN (1, '1', 'true') ORDER BY CASE c.title WHEN 'Basement DPRD Bandung' THEN 1 WHEN 'Buah Batu Regency' THEN 2 WHEN 'Pasang Jalur HDMI' THEN 3 WHEN 'PT. Pakar Biomedika Bandung' THEN 4 ELSE 5 END LIMIT 4")
+  const rows = await env.DB.prepare("SELECT c.id, c.kind, c.title, c.slug, c.category, c.summary, c.body, c.data, c.seo_title, c.meta_description, c.canonical_url, c.index_status, c.featured, c.published_at, c.updated_at, m.alt AS media_alt FROM content_items c LEFT JOIN media m ON m.id = json_extract(c.data, '$.cover_media_id') WHERE c.kind = 'PROYEK' AND c.status = 'PUBLISHED' AND c.title IN ('Basement DPRD Bandung', 'Buah Batu Regency', 'Pasang Jalur HDMI', 'PT. Pakar Biomedika Bandung') ORDER BY CASE c.title WHEN 'Basement DPRD Bandung' THEN 1 WHEN 'Buah Batu Regency' THEN 2 WHEN 'Pasang Jalur HDMI' THEN 3 WHEN 'PT. Pakar Biomedika Bandung' THEN 4 ELSE 5 END LIMIT 4")
     .all<ContentItem>();
   return rows.results;
+}
+
+export async function listPortfolioCategories(env: Env | undefined) {
+  if (!env) return [];
+  const [covers, counts] = await Promise.all([
+    listPortfolioCovers(env),
+    env.DB.prepare("SELECT category, COUNT(*) AS total FROM content_items WHERE kind = 'PROYEK' AND status = 'PUBLISHED' GROUP BY category").all<{ category: string; total: number }>()
+  ]);
+  const countByCategory = new Map(counts.results.map((row) => [row.category, Number(row.total)]));
+  return portfolioCategories.flatMap((category) => {
+    const cover = covers.find((item) => item.title === category.coverTitle);
+    if (!cover) return [];
+    return [{ ...category, cover, itemCount: countByCategory.get(category.category) ?? 0 }];
+  });
+}
+
+export function findPortfolioCategory(slug: string) {
+  return portfolioCategories.find((category) => category.slug === slug);
+}
+
+export async function listPortfolioCategoryItems(env: Env | undefined, category: string, page: number, pageSize = 8) {
+  if (!env) return { items: [] as PortfolioMediaItem[], total: 0, pageCount: 1, page: 1 };
+  const count = await env.DB.prepare("SELECT COUNT(*) AS total FROM content_items WHERE kind = 'PROYEK' AND status = 'PUBLISHED' AND category = ?").bind(category).first<{ total: number }>();
+  const total = Number(count?.total ?? 0);
+  const pageCount = Math.max(1, Math.ceil(total / pageSize));
+  const currentPage = Math.min(Math.max(1, page), pageCount);
+  const rows = await env.DB.prepare("SELECT c.id, c.kind, c.title, c.slug, c.category, c.summary, c.body, c.data, c.seo_title, c.meta_description, c.canonical_url, c.index_status, c.featured, c.published_at, c.updated_at, m.alt AS media_alt, m.width AS media_width, m.height AS media_height FROM content_items c LEFT JOIN media m ON m.id = COALESCE(json_extract(c.data, '$.cover_media_id'), json_extract(c.data, '$.media_id')) WHERE c.kind = 'PROYEK' AND c.status = 'PUBLISHED' AND c.category = ? ORDER BY c.featured DESC, c.published_at DESC LIMIT ? OFFSET ?")
+    .bind(category, pageSize, (currentPage - 1) * pageSize)
+    .all<PortfolioMediaItem>();
+  return { items: rows.results, total, pageCount, page: currentPage };
 }
 
 export async function listPortfolioServices(env: Env | undefined) {
