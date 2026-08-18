@@ -35,7 +35,7 @@
       </header>
 
       {#if mediaId}
-        <figure class="mt-12 overflow-hidden border border-stone bg-mist"><img class="aspect-[16/9] w-full object-cover" src={`/media/${mediaId}`} alt={item.media_alt || data.alt || item.title} width="1600" height="900" /></figure>
+        <figure class="mt-12 overflow-hidden border border-stone bg-mist"><img class="aspect-[16/9] w-full object-contain" src={`/media/${mediaId}`} alt={item.media_alt || data.alt || item.title} width="1600" height="900" /></figure>
       {/if}
 
       {#if facts.length}
