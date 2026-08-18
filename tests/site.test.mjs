@@ -108,6 +108,17 @@ test('shows gallery documentation without linking to unavailable detail pages', 
   assert.match(grid, /\{#if item\.kind !== 'GALERI'\}/);
 });
 
+test('filters and paginates published gallery documentation through the URL', () => {
+  const loader = read('../src/routes/galeri/+page.server.ts');
+  const page = read('../src/routes/galeri/+page.svelte');
+  assert.match(loader, /url\.searchParams\.get\('kategori'\)/);
+  assert.match(loader, /url\.searchParams\.get\('halaman'\)/);
+  assert.match(loader, /LIMIT \? OFFSET \?/);
+  assert.match(page, /Filter galeri/);
+  assert.match(page, /Halaman \{data\.page\} dari \{data\.pageCount\}/);
+  assert.match(page, /aria-current=\{data\.activeCategory === category \? 'page' : undefined\}/);
+});
+
 test('keeps production safeguards and automation in the repository', () => {
   assert.match(read('../src/hooks.server.ts'), /Strict-Transport-Security/);
   assert.match(read('../src/app.html'), /rel="icon"/);
