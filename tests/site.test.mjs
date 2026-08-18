@@ -101,6 +101,13 @@ test('publishes trust content without adding broken detail URLs to the sitemap',
   assert.match(read('../src/routes/sitemap.xml/+server.ts'), /kind IN \('LAYANAN', 'PROYEK', 'ARTIKEL'\)/);
 });
 
+test('shows gallery documentation without linking to unavailable detail pages', () => {
+  const grid = read('../src/lib/components/ContentGrid.svelte');
+  assert.match(grid, /item\.kind !== 'GALERI'/);
+  assert.match(grid, /Dokumentasi proyek/);
+  assert.match(grid, /\{#if item\.kind !== 'GALERI'\}/);
+});
+
 test('keeps production safeguards and automation in the repository', () => {
   assert.match(read('../src/hooks.server.ts'), /Strict-Transport-Security/);
   assert.match(read('../src/app.html'), /rel="icon"/);

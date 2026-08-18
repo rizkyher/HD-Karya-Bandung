@@ -33,7 +33,11 @@
         <p class="eyebrow mt-5 text-clay">{item.kind === 'ARTIKEL' ? `${data.author || 'Jasa Perbaikan Bandung'} · ${Math.max(1, Math.ceil(item.body.split(/\s+/).filter(Boolean).length / 200))} menit` : item.category || data.location || 'Jasa Perbaikan Bandung'}</p>
         <h2 class="mt-4 font-display text-3xl font-bold leading-[1.03] tracking-[-0.03em] text-balance">{item.title}</h2>
         <p class="mt-4 max-w-sm leading-7 text-forest">{item.summary}</p>
-        <a class="text-link mt-auto pt-7" href={`/${routeForKind(item.kind)}/${item.slug}`}>{item.kind === 'ARTIKEL' ? 'Baca artikel' : 'Lihat detail'} <span aria-hidden="true">↗</span></a>
+        {#if item.kind !== 'GALERI'}
+          <a class="text-link mt-auto pt-7" href={`/${routeForKind(item.kind)}/${item.slug}`}>{item.kind === 'ARTIKEL' ? 'Baca artikel' : 'Lihat detail'} <span aria-hidden="true">↗</span></a>
+        {:else}
+          <p class="mt-auto pt-7 text-sm font-bold text-forest">Dokumentasi proyek</p>
+        {/if}
       </article>
     {/each}
   </div>
