@@ -2,7 +2,7 @@ import type { RequestHandler } from './$types';
 import { routeForKind } from '$lib/content.js';
 
 export const GET: RequestHandler = async ({ url, platform }) => {
-  const fixed = ['/', '/tentang-kami', '/layanan', '/proyek', '/galeri', '/artikel', '/testimoni', '/mitra', '/sertifikasi', '/kontak'];
+  const fixed = ['/', '/tentang-kami', '/layanan', '/portofolio', '/artikel', '/testimoni', '/mitra', '/sertifikasi', '/kontak'];
   const rows = platform?.env
     ? await platform.env.DB.prepare("SELECT kind, slug, updated_at FROM content_items WHERE status = 'PUBLISHED' AND index_status = 'INDEX_FOLLOW' AND slug IS NOT NULL AND kind IN ('LAYANAN', 'PROYEK', 'ARTIKEL')").all<{ kind: string; slug: string; updated_at: string }>()
     : { results: [] };

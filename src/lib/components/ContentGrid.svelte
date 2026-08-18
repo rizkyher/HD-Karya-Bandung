@@ -26,7 +26,7 @@
           {#if mediaId}
             <img class="h-full w-full object-contain transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:scale-[1.035] group-active:scale-[1.02]" src={`/media/${mediaId}`} alt={item.media_alt || data.alt || item.title} width="1448" height="1086" loading="lazy" />
           {:else}
-            <img class="h-full w-full object-cover transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:scale-[1.035] group-active:scale-[1.02]" src={illustration.src} alt={`${illustration.alt} — foto ilustrasi sementara, bukan dokumentasi proyek Jasa Perbaikan Bandung`} width="1448" height="1086" loading="lazy" />
+            <img class="h-full w-full object-cover transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:scale-[1.035] group-active:scale-[1.02]" src={illustration.src} alt={`${illustration.alt} — foto ilustrasi sementara, bukan dokumentasi pekerjaan Jasa Perbaikan Bandung`} width="1448" height="1086" loading="lazy" />
             <p class="absolute bottom-0 left-0 bg-ink px-3 py-2 text-xs font-bold uppercase tracking-[0.12em] text-white">Foto ilustrasi sementara</p>
           {/if}
         </div>
@@ -36,14 +36,14 @@
         {#if item.kind !== 'GALERI'}
           <a class="text-link mt-auto pt-7" href={`/${routeForKind(item.kind)}/${item.slug}`}>{item.kind === 'ARTIKEL' ? 'Baca artikel' : 'Lihat detail'} <span aria-hidden="true">↗</span></a>
         {:else}
-          <p class="mt-auto pt-7 text-sm font-bold text-forest">Dokumentasi proyek</p>
+          <p class="mt-auto pt-7 text-sm font-bold text-forest">Dokumentasi pekerjaan</p>
         {/if}
       </article>
     {/each}
   </div>
 {:else}
   <section class="grid overflow-hidden border border-stone bg-mist md:grid-cols-[0.85fr_1.15fr]">
-    <img class="h-full min-h-64 w-full object-cover" src="/assets/dummy-renovation.webp" alt="Proses renovasi hunian kontemporer — foto ilustrasi sementara, bukan dokumentasi proyek Jasa Perbaikan Bandung" width="1448" height="1086" loading="lazy" />
-    <div class="p-8 sm:p-12"><p class="eyebrow text-clay">Sedang disiapkan</p><h2 class="mt-4 font-display text-4xl font-bold tracking-[-0.035em] text-balance">{emptyTitle}</h2><p class="mt-4 max-w-2xl leading-7 text-forest">{emptyBody}</p><p class="mt-5 text-sm leading-6 text-forest">Foto ilustrasi sementara — bukan dokumentasi proyek Jasa Perbaikan Bandung.</p><a class="button-primary mt-7" href="/kontak">Konsultasikan kebutuhan Anda</a></div>
+    <img class="h-full min-h-64 w-full object-cover" src="/assets/dummy-renovation.webp" alt="Proses renovasi hunian kontemporer — foto ilustrasi sementara, bukan dokumentasi pekerjaan Jasa Perbaikan Bandung" width="1448" height="1086" loading="lazy" />
+    <div class="p-8 sm:p-12"><p class="eyebrow text-clay">Sedang disiapkan</p><h2 class="mt-4 font-display text-4xl font-bold tracking-[-0.035em] text-balance">{emptyTitle}</h2><p class="mt-4 max-w-2xl leading-7 text-forest">{emptyBody}</p><p class="mt-5 text-sm leading-6 text-forest">Foto ilustrasi sementara — bukan dokumentasi pekerjaan Jasa Perbaikan Bandung.</p><a class="button-primary mt-7" href="/kontak">Konsultasikan kebutuhan Anda</a></div>
   </section>
 {/if}

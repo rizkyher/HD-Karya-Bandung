@@ -1,3 +1,6 @@
-import { listPublished } from '$lib/server/cms';
+import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
-export const load: PageServerLoad = async ({ platform }) => ({ items: await listPublished(platform?.env, 'PROYEK') });
+
+export const load: PageServerLoad = async ({ url }) => {
+	redirect(308, `/portofolio${url.search}`);
+};

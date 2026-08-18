@@ -25,7 +25,7 @@ test('keeps the public and protected route foundations in SvelteKit', () => {
   for (const path of [
     '../src/routes/+page.svelte',
     '../src/routes/layanan/+page.svelte',
-    '../src/routes/proyek/+page.svelte',
+    '../src/routes/portofolio/+page.svelte',
     '../src/routes/artikel/+page.svelte',
     '../src/routes/kontak/+page.svelte',
     '../src/routes/admin/login/+page.svelte',
@@ -94,10 +94,12 @@ test('lets admins select an uploaded project photo for the homepage hero', () =>
 
 test('keeps every public destination in the shared navigation', () => {
   const shell = read('../src/lib/components/PublicShell.svelte');
-  for (const route of ['/layanan', '/proyek', '/galeri', '/artikel', '/tentang-kami']) {
+  for (const route of ['/layanan', '/portofolio', '/artikel', '/tentang-kami']) {
     assert.match(shell, new RegExp(route));
   }
-  assert.match(shell, /\['\/galeri', 'Galeri'\]/);
+  assert.match(shell, /\['\/portofolio', 'Portofolio'\]/);
+  assert.doesNotMatch(shell, /\['\/proyek', 'Proyek'\]/);
+  assert.doesNotMatch(shell, /\['\/galeri', 'Galeri'\]/);
   assert.match(shell, /import \{ page \} from '\$app\/state'/);
   assert.match(shell, /aria-current=\{isActive\(link\[0\]\) \? 'page' : undefined\}/);
   assert.match(shell, /page\.url\.pathname\.startsWith\(`\$\{href\}\/`\)/);
@@ -113,22 +115,57 @@ test('publishes trust content without adding broken detail URLs to the sitemap',
   assert.match(read('../src/routes/sitemap.xml/+server.ts'), /kind IN \('LAYANAN', 'PROYEK', 'ARTIKEL'\)/);
 });
 
-test('shows gallery documentation without linking to unavailable detail pages', () => {
+test('links published portfolio entries to their dedicated detail pages', () => {
   const grid = read('../src/lib/components/ContentGrid.svelte');
   assert.match(grid, /item\.kind !== 'GALERI'/);
-  assert.match(grid, /Dokumentasi proyek/);
+  assert.match(read('../src/lib/content.js'), /portofolio:\s*'PROYEK'/);
+  assert.match(read('../src/lib/content.js'), /PROYEK:\s*'Portofolio'/);
   assert.match(grid, /\{#if item\.kind !== 'GALERI'\}/);
 });
 
-test('filters and paginates published gallery documentation through the URL', () => {
-  const loader = read('../src/routes/galeri/+page.server.ts');
-  const page = read('../src/routes/galeri/+page.svelte');
+test('filters and paginates portfolio entries through the URL', () => {
+  const loader = read('../src/routes/portofolio/+page.server.ts');
+  const page = read('../src/routes/portofolio/+page.svelte');
   assert.match(loader, /url\.searchParams\.get\('kategori'\)/);
   assert.match(loader, /url\.searchParams\.get\('halaman'\)/);
   assert.match(loader, /LIMIT \? OFFSET \?/);
-  assert.match(page, /Filter galeri/);
+  assert.match(page, /Filter portofolio/);
   assert.match(page, /Halaman \{data\.page\} dari \{data\.pageCount\}/);
-  assert.match(page, /aria-current=\{data\.activeCategory === category \? 'page' : undefined\}/);
+  assert.match(page, /aria-label="Filter portofolio"/);
+  assert.match(page, /portfolioUrl\(1, ''\)/);
+  assert.match(page, /portfolioUrl\(data\.page - 1\)/);
+  assert.match(page, /portfolioUrl\(data\.page \+ 1\)/);
+  assert.match(page, /object-contain/);
+});
+
+test('permanently redirects legacy project and gallery URLs while keeping query parameters', () => {
+  assert.match(read('../src/routes/proyek/+page.server.ts'), /redirect\(308, `\/portofolio\$\{url\.search\}`\)/);
+  assert.match(read('../src/routes/galeri/+page.server.ts'), /redirect\(308, `\/portofolio\$\{url\.search\}`\)/);
+  assert.match(read('../src/routes/proyek/[slug]/+page.server.ts'), /redirect\(308, `\/portofolio\/\$\{params\.slug\}`\)/);
+});
+
+test('selects one real cover for each portfolio category and applies it to matching services', () => {
+  const migration = read('../migrations/0007_portfolio_rebrand.sql');
+  const cms = read('../src/lib/server/cms.ts');
+  const homeLoader = read('../src/routes/+page.server.ts');
+  for (const title of ['Basement DPRD Bandung', 'Buah Batu Regency', 'Pasang Jalur HDMI', 'PT. Pakar Biomedika Bandung']) {
+    assert.match(migration, new RegExp(title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+  }
+  for (const slug of ['renovasi-pengecatan-ulang', 'perbaikan-lemari-kayu', 'instalasi-relokasi-listrik', 'kusen-aluminium']) {
+    assert.match(migration, new RegExp(slug));
+  }
+  assert.match(migration, /portfolio_cover/);
+  assert.match(migration, /portfolio_category/);
+  assert.match(migration, /cover_media_id/);
+  assert.match(cms, /listPortfolioServices/);
+  assert.match(homeLoader, /listPortfolioServices/);
+});
+
+test('keeps the desktop admin navigation independently scrollable', () => {
+  const shell = read('../src/lib/components/AdminShell.svelte');
+  assert.match(shell, /overflow-y: auto/);
+  assert.match(shell, /overscroll-behavior: contain/);
+  assert.match(shell, /height: 100dvh/);
 });
 
 test('keeps production safeguards and automation in the repository', () => {
@@ -144,7 +181,7 @@ test('shares a polished visual foundation across public pages', () => {
   assert.match(read('../src/app.css'), /--ease-out-expo/);
   assert.match(read('../src/lib/components/PublicShell.svelte'), /backdrop-blur/);
   assert.match(read('../src/lib/components/ContentGrid.svelte'), /group-hover:scale/);
-  for (const route of ['layanan', 'proyek', 'artikel', 'galeri']) {
+  for (const route of ['layanan', 'portofolio', 'artikel']) {
     assert.match(read(`../src/routes/${route}/+page.svelte`), /PageIntro/);
   }
   assert.match(read('../src/routes/kontak/+page.svelte'), /field-input/);
@@ -189,6 +226,18 @@ test('ships clearly labeled dummy visuals for public content states', () => {
     assert.match(grid, new RegExp(asset));
   }
   assert.match(grid, /Foto ilustrasi sementara/);
+});
+
+test('rebrands homepage portfolio content and keeps sitemap URLs canonical', () => {
+  const home = read('../src/routes/+page.svelte');
+  const sitemap = read('../src/routes/sitemap.xml/+server.ts');
+  assert.match(home, /Lihat portofolio/);
+  assert.match(home, /Portofolio Kami/);
+  assert.match(home, /href="\/portofolio"/);
+  assert.doesNotMatch(home, /Dokumentasi proyek/);
+  assert.match(sitemap, /'\/portofolio'/);
+  assert.doesNotMatch(sitemap, /'\/proyek'/);
+  assert.doesNotMatch(sitemap, /'\/galeri'/);
 });
 
 test('seeds the company profile service catalog without inventing portfolio entries', () => {

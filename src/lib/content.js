@@ -1,10 +1,10 @@
 export const contentKinds = {
-  layanan: 'LAYANAN', proyek: 'PROYEK', artikel: 'ARTIKEL', galeri: 'GALERI',
+  layanan: 'LAYANAN', portofolio: 'PROYEK', proyek: 'PROYEK', artikel: 'ARTIKEL', galeri: 'GALERI',
   testimoni: 'TESTIMONI', klien: 'KLIEN', sertifikasi: 'SERTIFIKASI'
 };
 
 export const contentLabels = {
-  LAYANAN: 'Layanan', PROYEK: 'Proyek', ARTIKEL: 'Artikel', GALERI: 'Galeri',
+  LAYANAN: 'Layanan', PROYEK: 'Portofolio', ARTIKEL: 'Artikel', GALERI: 'Galeri',
   TESTIMONI: 'Testimoni', KLIEN: 'Klien & partner', SERTIFIKASI: 'Sertifikasi'
 };
 

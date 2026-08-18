@@ -17,6 +17,20 @@ export async function listPublished(env: Env | undefined, kind: ContentKind, lim
   return rows.results;
 }
 
+export async function listPortfolioCovers(env: Env | undefined) {
+  if (!env) return [] as ContentItem[];
+  const rows = await env.DB.prepare("SELECT c.id, c.kind, c.title, c.slug, c.category, c.summary, c.body, c.data, c.seo_title, c.meta_description, c.canonical_url, c.index_status, c.featured, c.published_at, c.updated_at, m.alt AS media_alt FROM content_items c LEFT JOIN media m ON m.id = json_extract(c.data, '$.cover_media_id') WHERE c.kind = 'PROYEK' AND c.status = 'PUBLISHED' AND json_extract(c.data, '$.portfolio_cover') IN (1, '1', 'true') ORDER BY CASE c.title WHEN 'Basement DPRD Bandung' THEN 1 WHEN 'Buah Batu Regency' THEN 2 WHEN 'Pasang Jalur HDMI' THEN 3 WHEN 'PT. Pakar Biomedika Bandung' THEN 4 ELSE 5 END LIMIT 4")
+    .all<ContentItem>();
+  return rows.results;
+}
+
+export async function listPortfolioServices(env: Env | undefined) {
+  if (!env) return [] as ContentItem[];
+  const rows = await env.DB.prepare("SELECT c.id, c.kind, c.title, c.slug, c.category, c.summary, c.body, c.data, c.seo_title, c.meta_description, c.canonical_url, c.index_status, c.featured, c.published_at, c.updated_at, m.alt AS media_alt FROM content_items c LEFT JOIN media m ON m.id = json_extract(c.data, '$.cover_media_id') WHERE c.kind = 'LAYANAN' AND c.status = 'PUBLISHED' AND c.slug IN ('renovasi-pengecatan-ulang', 'perbaikan-lemari-kayu', 'instalasi-relokasi-listrik', 'kusen-aluminium') ORDER BY CASE c.slug WHEN 'renovasi-pengecatan-ulang' THEN 1 WHEN 'perbaikan-lemari-kayu' THEN 2 WHEN 'instalasi-relokasi-listrik' THEN 3 WHEN 'kusen-aluminium' THEN 4 ELSE 5 END")
+    .all<ContentItem>();
+  return rows.results;
+}
+
 export async function getPublished(env: Env | undefined, kind: ContentKind, slug: string) {
   if (!env) return null;
   return env.DB.prepare("SELECT c.id, c.kind, c.title, c.slug, c.category, c.summary, c.body, c.data, c.seo_title, c.meta_description, c.canonical_url, c.index_status, c.featured, c.published_at, c.updated_at, m.alt AS media_alt FROM content_items c LEFT JOIN media m ON m.id = COALESCE(json_extract(c.data, '$.cover_media_id'), json_extract(c.data, '$.media_id'), json_extract(c.data, '$.photo_media_id'), json_extract(c.data, '$.logo_media_id'), json_extract(c.data, '$.image_media_id')) WHERE c.kind = ? AND c.slug = ? AND c.status = 'PUBLISHED'")

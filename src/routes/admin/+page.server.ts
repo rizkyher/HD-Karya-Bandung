@@ -1,2 +1,19 @@
 import type { PageServerLoad } from './$types';
-export const load: PageServerLoad = async ({ platform, url }) => { const requestedTutorialStep = Number(url.searchParams.get('tutorial')); const tutorialStep = Number.isInteger(requestedTutorialStep) && requestedTutorialStep >= 1 && requestedTutorialStep <= 4 ? requestedTutorialStep : 0; const env = platform?.env; if (!env) return { metrics: [], inquiries: [], tutorialStep }; const counts = await env.DB.prepare("SELECT kind, status, COUNT(*) AS total FROM content_items GROUP BY kind, status").all<{ kind: string; status: string; total: number }>(); const total = (kind: string, status?: string) => counts.results.filter((row) => row.kind === kind && (!status || row.status === status)).reduce((sum, row) => sum + Number(row.total), 0); const newInquiries = await env.DB.prepare("SELECT COUNT(*) AS total FROM inquiries WHERE status = 'NEW'").first<{ total: number }>(); const inquiries = await env.DB.prepare('SELECT id, reference, name, service, status, created_at FROM inquiries ORDER BY created_at DESC LIMIT 6').all<{ id: string; reference: string; name: string; service: string; status: string; created_at: string }>(); return { metrics: [['Proyek', total('PROYEK')], ['Proyek terbit', total('PROYEK', 'PUBLISHED')], ['Layanan', total('LAYANAN')], ['Artikel', total('ARTIKEL')], ['Inquiry baru', Number(newInquiries?.total ?? 0)]], inquiries: inquiries.results, tutorialStep }; };
+
+export const load: PageServerLoad = async ({ platform, url }) => {
+  const requestedTutorialStep = Number(url.searchParams.get('tutorial'));
+  const tutorialStep = Number.isInteger(requestedTutorialStep) && requestedTutorialStep >= 1 && requestedTutorialStep <= 4 ? requestedTutorialStep : 0;
+  const env = platform?.env;
+  if (!env) return { metrics: [], inquiries: [], tutorialStep };
+
+  const counts = await env.DB.prepare("SELECT kind, status, COUNT(*) AS total FROM content_items GROUP BY kind, status").all<{ kind: string; status: string; total: number }>();
+  const total = (kind: string, status?: string) => counts.results.filter((row) => row.kind === kind && (!status || row.status === status)).reduce((sum, row) => sum + Number(row.total), 0);
+  const newInquiries = await env.DB.prepare("SELECT COUNT(*) AS total FROM inquiries WHERE status = 'NEW'").first<{ total: number }>();
+  const inquiries = await env.DB.prepare('SELECT id, reference, name, service, status, created_at FROM inquiries ORDER BY created_at DESC LIMIT 6').all<{ id: string; reference: string; name: string; service: string; status: string; created_at: string }>();
+
+  return {
+    metrics: [['Portofolio', total('PROYEK')], ['Portofolio terbit', total('PROYEK', 'PUBLISHED')], ['Layanan', total('LAYANAN')], ['Artikel', total('ARTIKEL')], ['Inquiry baru', Number(newInquiries?.total ?? 0)]],
+    inquiries: inquiries.results,
+    tutorialStep
+  };
+};

@@ -5,8 +5,7 @@
   let { children }: { children: import('svelte').Snippet } = $props();
   const links = [
     ['/layanan', 'Layanan'],
-    ['/proyek', 'Proyek'],
-    ['/galeri', 'Galeri'],
+    ['/portofolio', 'Portofolio'],
     ['/artikel', 'Artikel'],
     ['/tentang-kami', 'Tentang']
   ];

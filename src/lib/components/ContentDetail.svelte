@@ -1,7 +1,7 @@
 <script lang="ts">
   import PublicShell from './PublicShell.svelte';
   import type { ContentItem } from '$lib/server/cms';
-  import { parseData, routeForKind } from '$lib/content.js';
+  import { contentLabels, parseData, routeForKind } from '$lib/content.js';
 
   let { item }: { item: ContentItem } = $props();
   let data = $derived(parseData(item.data) as Record<string, string>);
@@ -9,7 +9,7 @@
   let kindRoute = $derived(routeForKind(item.kind));
   let mediaId = $derived(data.cover_media_id || data.media_id);
   let facts = $derived(item.kind === 'PROYEK' ? [['Lokasi', data.location], ['Sektor', data.sector], ['Status', data.project_status], ['Tahun', [data.start_year, data.end_year].filter(Boolean).join('–')]].filter((entry) => entry[1]) : []);
-  let extra = $derived(item.kind === 'LAYANAN' ? [['Cocok untuk', data.suitable_for], ['Masalah yang ditangani', data.problems], ['Scope pekerjaan', data.scope], ['Deliverables', data.deliverables], ['Proses kerja', data.process]] : item.kind === 'PROYEK' ? [['Tantangan proyek', data.challenge], ['Solusi', data.solution], ['Scope pekerjaan', data.scope], ['Hasil', data.result]] : []);
+  let extra = $derived(item.kind === 'LAYANAN' ? [['Cocok untuk', data.suitable_for], ['Masalah yang ditangani', data.problems], ['Scope pekerjaan', data.scope], ['Deliverables', data.deliverables], ['Proses kerja', data.process]] : item.kind === 'PROYEK' ? [['Tantangan pekerjaan', data.challenge], ['Solusi', data.solution], ['Scope pekerjaan', data.scope], ['Hasil', data.result]] : []);
   let faq = $derived(String(data.faq || '').split('\n').map((row) => row.split('|').map((part) => part.trim())).filter(([question, answer]) => question && answer));
 </script>
 
@@ -24,7 +24,7 @@
   <main id="content">
     <article class="page-shell py-12 sm:py-16 lg:py-20">
       <nav class="mb-10 flex flex-wrap gap-2 border-b border-stone pb-5 text-sm text-forest" aria-label="Breadcrumb">
-        <a class="hover:text-clay" href="/">Beranda</a><span>/</span><a class="hover:text-clay" href={`/${kindRoute}`}>{item.kind[0] + item.kind.slice(1).toLowerCase()}</a><span>/</span><span aria-current="page">{item.title}</span>
+        <a class="hover:text-clay" href="/">Beranda</a><span>/</span><a class="hover:text-clay" href={`/${kindRoute}`}>{(contentLabels as Record<string, string>)[item.kind]}</a><span>/</span><span aria-current="page">{item.title}</span>
       </nav>
 
       <header class="max-w-5xl">
@@ -58,7 +58,7 @@
         <section class="mt-14 max-w-3xl border-t border-stone pt-8"><h2 class="font-display text-3xl font-bold tracking-[-0.03em]">Pertanyaan umum</h2><div class="mt-5 divide-y divide-stone border-y border-stone">{#each faq as entry}<details class="group py-5"><summary class="cursor-pointer font-bold marker:text-clay">{entry[0]}</summary><p class="pt-4 leading-7 text-forest">{entry[1]}</p></details>{/each}</div></section>
       {/if}
 
-      <aside class="mt-16 max-w-4xl bg-ink p-8 text-white sm:p-10"><p class="eyebrow text-clay">Diskusikan kebutuhan Anda</p><h2 class="mt-4 font-display text-3xl font-bold tracking-[-0.03em]">Butuh arah untuk proyek serupa?</h2><p class="mt-4 max-w-2xl leading-7 text-white/70">Ceritakan lokasi, kebutuhan, dan target waktunya agar percakapan pertama lebih terarah.</p><a class="button-primary mt-7 bg-white text-ink hover:bg-mist" href="/kontak">Mulai konsultasi</a></aside>
+      <aside class="mt-16 max-w-4xl bg-ink p-8 text-white sm:p-10"><p class="eyebrow text-clay">Diskusikan kebutuhan Anda</p><h2 class="mt-4 font-display text-3xl font-bold tracking-[-0.03em]">Butuh arah untuk pekerjaan serupa?</h2><p class="mt-4 max-w-2xl leading-7 text-white/70">Ceritakan lokasi, kebutuhan, dan target waktunya agar percakapan pertama lebih terarah.</p><a class="button-primary mt-7 bg-white text-ink hover:bg-mist" href="/kontak">Mulai konsultasi</a></aside>
     </article>
   </main>
 </PublicShell>

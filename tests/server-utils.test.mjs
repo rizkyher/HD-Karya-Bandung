@@ -8,7 +8,7 @@ test('content helpers preserve the safe public URL contract', () => {
   assert.equal(isSafeSlug('renovasi-rumah-bandung'), true);
   assert.equal(isSafeSlug('Renovasi Rumah'), false);
   assert.equal(routeForKind('LAYANAN'), 'layanan');
-  assert.equal(routeForKind('PROYEK'), 'proyek');
+  assert.equal(routeForKind('PROYEK'), 'portofolio');
 });
 
 test('content helpers trim and cap untrusted form text', () => {

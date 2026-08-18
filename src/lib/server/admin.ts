@@ -2,10 +2,10 @@ import { error } from '@sveltejs/kit';
 import { audit, type AdminUser } from './auth';
 import { cleanText, contentKinds, contentLabels, isSafeSlug, parseData, routeForKind } from '$lib/content.js';
 
-export const editableModules = contentKinds as Record<string, string>;
+export const editableModules = Object.fromEntries(Object.entries(contentKinds).filter(([module]) => module !== 'portofolio')) as Record<string, string>;
 export const fieldSets: Record<string, Array<{ key: string; label: string; multiline?: boolean }>> = {
   LAYANAN: [{ key: 'cover_media_id', label: 'Gambar layanan' }, { key: 'suitable_for', label: 'Cocok untuk', multiline: true }, { key: 'problems', label: 'Masalah yang ditangani', multiline: true }, { key: 'scope', label: 'Scope pekerjaan', multiline: true }, { key: 'deliverables', label: 'Deliverables', multiline: true }, { key: 'process', label: 'Proses kerja', multiline: true }, { key: 'faq', label: 'FAQ (pertanyaan | jawaban)', multiline: true }],
-  PROYEK: [{ key: 'cover_media_id', label: 'Gambar proyek' }, { key: 'client', label: 'Klien (opsional)' }, { key: 'location', label: 'Lokasi' }, { key: 'sector', label: 'Sektor' }, { key: 'start_year', label: 'Tahun mulai' }, { key: 'end_year', label: 'Tahun selesai' }, { key: 'challenge', label: 'Tantangan', multiline: true }, { key: 'solution', label: 'Solusi', multiline: true }, { key: 'scope', label: 'Scope pekerjaan', multiline: true }, { key: 'result', label: 'Hasil', multiline: true }],
+  PROYEK: [{ key: 'cover_media_id', label: 'Gambar portofolio' }, { key: 'client', label: 'Klien (opsional)' }, { key: 'location', label: 'Lokasi' }, { key: 'sector', label: 'Sektor' }, { key: 'start_year', label: 'Tahun mulai' }, { key: 'end_year', label: 'Tahun selesai' }, { key: 'challenge', label: 'Tantangan', multiline: true }, { key: 'solution', label: 'Solusi', multiline: true }, { key: 'scope', label: 'Scope pekerjaan', multiline: true }, { key: 'result', label: 'Hasil', multiline: true }],
   ARTIKEL: [{ key: 'cover_media_id', label: 'Gambar artikel' }, { key: 'author', label: 'Penulis' }],
   GALERI: [{ key: 'media_id', label: 'Gambar galeri' }, { key: 'alt', label: 'Alt text' }, { key: 'caption', label: 'Caption', multiline: true }],
   TESTIMONI: [{ key: 'photo_media_id', label: 'Foto atau logo' }, { key: 'position', label: 'Posisi' }, { key: 'company', label: 'Perusahaan' }, { key: 'quote', label: 'Kutipan', multiline: true }],
@@ -33,13 +33,13 @@ export async function saveContent(env: Env, user: AdminUser, kind: string, form:
   const title = cleanText(form.get('title'), 180);
   const slug = cleanText(form.get('slug'), 120);
   if (!title || !isSafeSlug(slug)) return { error: 'Judul wajib diisi dan slug harus memakai huruf kecil, angka, serta tanda hubung.' };
-  const data = Object.fromEntries((fieldSets[kind] ?? []).map((field) => [field.key, cleanText(form.get(`meta_${field.key}`), 3000)]));
+  const existing = existingId ? await env.DB.prepare('SELECT slug, data FROM content_items WHERE id = ? AND kind = ?').bind(existingId, kind).first<{ slug: string; data: string }>() : null;
+  const data = { ...parseData(existing?.data), ...Object.fromEntries((fieldSets[kind] ?? []).map((field) => [field.key, cleanText(form.get(`meta_${field.key}`), 3000)])) };
   const fields = [title, slug, cleanText(form.get('category'), 80), cleanText(form.get('summary'), 500), cleanText(form.get('body'), 12000), JSON.stringify(data), cleanText(form.get('seo_title'), 180), cleanText(form.get('meta_description'), 160), cleanText(form.get('canonical_url'), 500), cleanText(form.get('index_status'), 30) || 'INDEX_FOLLOW', cleanText(form.get('status'), 20) || 'DRAFT', form.get('featured') ? 1 : 0];
   try {
     if (existingId) {
-      const previous = await env.DB.prepare('SELECT slug FROM content_items WHERE id = ? AND kind = ?').bind(existingId, kind).first<{ slug: string }>();
       await env.DB.prepare("UPDATE content_items SET title=?, slug=?, category=?, summary=?, body=?, data=?, seo_title=?, meta_description=?, canonical_url=?, index_status=?, status=?, featured=?, published_at=CASE WHEN ? = 'PUBLISHED' AND published_at IS NULL THEN CURRENT_TIMESTAMP ELSE published_at END, updated_at=CURRENT_TIMESTAMP WHERE id=? AND kind=?").bind(...fields, fields[10], existingId, kind).run();
-      if (previous?.slug && previous.slug !== slug) await env.DB.prepare('INSERT INTO redirects (id, from_path, to_path, status_code) VALUES (?, ?, ?, 301) ON CONFLICT(from_path) DO UPDATE SET to_path=excluded.to_path').bind(crypto.randomUUID(), `/${routeForKind(kind)}/${previous.slug}`, `/${routeForKind(kind)}/${slug}`).run();
+      if (existing?.slug && existing.slug !== slug) await env.DB.prepare('INSERT INTO redirects (id, from_path, to_path, status_code) VALUES (?, ?, ?, 301) ON CONFLICT(from_path) DO UPDATE SET to_path=excluded.to_path').bind(crypto.randomUUID(), `/${routeForKind(kind)}/${existing.slug}`, `/${routeForKind(kind)}/${slug}`).run();
       await audit(env, user.id, 'UPDATE', kind, existingId, `Memperbarui ${title}`);
     } else {
       const id = crypto.randomUUID();
