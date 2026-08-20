@@ -8,7 +8,7 @@
 
 <svelte:head>
   <title>Portofolio Kami | Jasa Perbaikan Bandung</title>
-  <meta name="description" content="Dokumentasi pekerjaan renovasi, furniture kayu, instalasi listrik, dan kusen aluminium di Bandung." />
+  <meta name="description" content="Dokumentasi pekerjaan renovasi, furniture, interior, listrik, kaca tempered, kusen aluminium, dan kebutuhan ruang lainnya di Bandung." />
   <link rel="canonical" href="https://jasaperbaikanbandung.com/portofolio" />
 </svelte:head>
 
@@ -19,7 +19,7 @@
     <section class="page-shell py-10 sm:py-14 lg:py-20" aria-labelledby="portfolio-categories">
       <div class="mb-7 flex flex-wrap items-end justify-between gap-4 sm:mb-10">
         <div>
-          <p class="eyebrow text-clay">Empat bidang pekerjaan</p>
+          <p class="eyebrow text-clay">Bidang pekerjaan</p>
           <h2 id="portfolio-categories" class="mt-3 font-display text-3xl font-bold tracking-[-0.035em] text-balance sm:text-4xl">Pilih bidang pekerjaan.</h2>
         </div>
         <p class="max-w-sm text-sm leading-6 text-forest">Buka salah satu galeri untuk melihat seluruh dokumentasi dan memperbesar setiap foto.</p>

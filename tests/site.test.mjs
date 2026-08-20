@@ -162,6 +162,17 @@ test('selects one real cover for each portfolio category and applies it to match
   assert.match(homeLoader, /listPortfolioServices/);
 });
 
+test('publishes the latest service covers as portfolio categories', () => {
+  const migration = read('../migrations/0010_add_service_covers_to_portfolio.sql');
+  const cms = read('../src/lib/server/cms.ts');
+  for (const title of ['Pengerjaan Furniture & Interior', 'Pemasangan Kaca Tempered', 'Pengerjaan Huruf Timbul & Neon Box', 'Jasa Perbaikan Rumah/Kantor']) {
+    assert.match(migration, new RegExp(title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+    assert.match(cms, new RegExp(title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+  }
+  assert.match(cms, /json_extract\(c\.data, '\$\.portfolio_cover'\) = 1/);
+  assert.match(migration, /portfolio_category/);
+});
+
 test('keeps the desktop admin navigation independently scrollable', () => {
   const shell = read('../src/lib/components/AdminShell.svelte');
   assert.match(shell, /overflow-y: auto/);
