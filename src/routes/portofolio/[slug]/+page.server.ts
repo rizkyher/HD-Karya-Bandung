@@ -1,9 +1,13 @@
-import { error } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
 import { findPortfolioCategory, getPublished, listPortfolioCategories, listPortfolioCategoryItems } from '$lib/server/cms';
 import type { PageServerLoad } from './$types';
 
 
 export const load: PageServerLoad = async ({ platform, params, url }) => {
+	if (params.slug === 'perbaikan-rumah-kantor') {
+		redirect(308, `/portofolio/renovasi-pengecatan${url.search}`);
+	}
+
 	const category = findPortfolioCategory(params.slug);
 	if (category) {
 		const requestedPage = Number(url.searchParams.get('halaman'));

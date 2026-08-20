@@ -8,14 +8,13 @@ export type ContentItem = {
 };
 
 export const portfolioCategories = [
-  { slug: 'renovasi-pengecatan', category: 'Jasa Renovasi & Pengecatan Ulang', coverTitle: 'Basement DPRD Bandung', name: 'Renovasi & Pengecatan', description: 'Perbaikan ruang, pembaruan interior, dan pengecatan ulang untuk rumah, kantor, sekolah, tempat ibadah, serta fasilitas usaha.' },
+  { slug: 'renovasi-pengecatan', category: 'Jasa Renovasi & Pengecatan Ulang', coverTitle: 'Jasa Perbaikan Rumah/Kantor', name: 'Renovasi & Pengecatan', description: 'Perbaikan ruang, pembaruan interior, dan pengecatan ulang untuk rumah, kantor, sekolah, tempat ibadah, serta fasilitas usaha.' },
   { slug: 'furniture-kayu', category: 'Jasa Perbaikan Lemari, Pintu, dan Meja Kayu', coverTitle: 'Buah Batu Regency', name: 'Furniture Kayu', description: 'Dokumentasi perbaikan lemari, pintu, meja, sofa pantry, dan furniture kayu lainnya.' },
   { slug: 'instalasi-listrik', category: 'Jasa Instalasi/Relokasi Listrik', coverTitle: 'Pasang Jalur HDMI', name: 'Instalasi & Relokasi Listrik', description: 'Pemasangan jalur, pembaruan instalasi, serta relokasi saklar dan stop kontak.' },
   { slug: 'kusen-aluminium', category: 'Pengerjaan Kusen Aluminium', coverTitle: 'PT. Pakar Biomedika Bandung', name: 'Kusen Aluminium', description: 'Pengerjaan kusen, pintu, jendela, dan partisi aluminium untuk berbagai jenis ruang.' },
   { slug: 'furniture-interior', category: 'Pengerjaan Furniture & Interior', coverTitle: 'Pengerjaan Furniture & Interior', name: 'Furniture & Interior', description: 'Pengerjaan furniture custom dan penataan interior yang disesuaikan dengan fungsi serta ukuran ruang.' },
   { slug: 'kaca-tempered', category: 'Pengerjaan Kaca Tempered', coverTitle: 'Pemasangan Kaca Tempered', name: 'Kaca Tempered', description: 'Pemasangan kaca tempered untuk pintu, partisi, etalase, dan kebutuhan ruang usaha.' },
-  { slug: 'huruf-timbul-neonbox', category: 'Pengerjaan Huruf Timbul & Neonbox', coverTitle: 'Pengerjaan Huruf Timbul & Neon Box', name: 'Huruf Timbul & Neon Box', description: 'Pengerjaan identitas visual usaha berupa huruf timbul dan neon box.' },
-  { slug: 'perbaikan-rumah-kantor', category: 'Jasa Perbaikan Rumah/Kantor', coverTitle: 'Jasa Perbaikan Rumah/Kantor', name: 'Perbaikan Rumah & Kantor', description: 'Perbaikan dan penataan ruang untuk rumah, kantor, serta tempat usaha.' }
+  { slug: 'huruf-timbul-neonbox', category: 'Pengerjaan Huruf Timbul & Neonbox', coverTitle: 'Pengerjaan Huruf Timbul & Neon Box', name: 'Huruf Timbul & Neon Box', description: 'Pengerjaan identitas visual usaha berupa huruf timbul dan neon box.' }
 ] as const;
 
 export type PortfolioCategory = (typeof portfolioCategories)[number];

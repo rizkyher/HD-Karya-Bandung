@@ -173,6 +173,19 @@ test('publishes the latest service covers as portfolio categories', () => {
   assert.match(migration, /portfolio_category/);
 });
 
+test('groups home and office repairs under renovation while using its photo as the renovation cover', () => {
+  const migration = read('../migrations/0011_merge_home_office_repairs_into_renovation.sql');
+  const cms = read('../src/lib/server/cms.ts');
+  const detailRoute = read('../src/routes/portofolio/[slug]/+page.server.ts');
+  assert.match(migration, /jasa-perbaikan-rumah-kantor/);
+  assert.match(migration, /Jasa Renovasi & Pengecatan Ulang/);
+  assert.match(migration, /Basement DPRD Bandung/);
+  assert.match(migration, /'\$\.portfolio_cover', 0/);
+  assert.match(cms, /slug: 'renovasi-pengecatan'[\s\S]*coverTitle: 'Jasa Perbaikan Rumah\/Kantor'/);
+  assert.doesNotMatch(cms, /slug: 'perbaikan-rumah-kantor'/);
+  assert.match(detailRoute, /params\.slug === 'perbaikan-rumah-kantor'[\s\S]*redirect\(308, `\/portofolio\/renovasi-pengecatan\$\{url\.search\}`\)/);
+});
+
 test('keeps the desktop admin navigation independently scrollable', () => {
   const shell = read('../src/lib/components/AdminShell.svelte');
   assert.match(shell, /overflow-y: auto/);
