@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "hd-karya-bandung",
-  "account_id": "eb85a8ce283c91ec262bde26e1716165",
+  "account_id": "121ab43fafa05f480a3a9e823adbc1c6",
   "main": ".svelte-kit/cloudflare/_worker.js",
   "compatibility_date": "2026-08-08",
   "compatibility_flags": ["nodejs_compat"],
@@ -12,11 +12,11 @@
     {
       "binding": "DB",
       "database_name": "hd-karya-bandung",
-      "database_id": "ce821bb5-6c33-4f73-b72f-588b657db0fd",
+      "database_id": "8c1a2bb5-8fa1-4417-80d9-49741998a787",
       "migrations_dir": "migrations"
     }
   ],
   "r2_buckets": [
-    { "binding": "MEDIA", "bucket_name": "hd-karya-media" }
+    { "binding": "MEDIA", "bucket_name": "hd-karya-media-jpb" }
   ]
 }
