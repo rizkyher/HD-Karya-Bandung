@@ -7,3 +7,5 @@ dist/
 .svelte-kit/
 .dev.vars
 pet-runs/
+.playwright-cli/
+design-system/example/
