@@ -139,6 +139,14 @@ test('organizes and paginates portfolio entries through category URLs', () => {
   assert.match(read('../src/lib/components/PortfolioLightbox.svelte'), /object-contain/);
 });
 
+test('keeps portfolio canonicals on the active deployment origin', () => {
+  const landing = read('../src/routes/portofolio/+page.svelte');
+  const detail = read('../src/routes/portofolio/[slug]/+page.svelte');
+  assert.match(landing, /rel="canonical" href="\/portofolio"/);
+  assert.match(detail, /rel="canonical" href=\{`\/portofolio\/\$\{data\.category\.slug\}`\}/);
+  assert.doesNotMatch(landing + detail, /jasaperbaikanbandung\.com/);
+});
+
 test('permanently redirects legacy project and gallery URLs while keeping query parameters', () => {
   assert.match(read('../src/routes/proyek/+page.server.ts'), /redirect\(308, `\/portofolio\$\{url\.search\}`\)/);
   assert.match(read('../src/routes/galeri/+page.server.ts'), /redirect\(308, `\/portofolio\$\{url\.search\}`\)/);
@@ -167,7 +175,9 @@ test('publishes the latest service covers as portfolio categories', () => {
   const cms = read('../src/lib/server/cms.ts');
   for (const title of ['Pengerjaan Furniture & Interior', 'Pemasangan Kaca Tempered', 'Pengerjaan Huruf Timbul & Neon Box', 'Jasa Perbaikan Rumah/Kantor']) {
     assert.match(migration, new RegExp(title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
-    assert.match(cms, new RegExp(title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+  }
+  for (const category of ['Pengerjaan Furniture & Interior', 'Pengerjaan Kaca Tempered', 'Pengerjaan Huruf Timbul & Neonbox']) {
+    assert.match(cms, new RegExp(category.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
   }
   assert.match(cms, /json_extract\(c\.data, '\$\.portfolio_cover'\) = 1/);
   assert.match(migration, /portfolio_category/);
@@ -181,9 +191,26 @@ test('groups home and office repairs under renovation while using its photo as t
   assert.match(migration, /Jasa Renovasi & Pengecatan Ulang/);
   assert.match(migration, /Basement DPRD Bandung/);
   assert.match(migration, /'\$\.portfolio_cover', 0/);
-  assert.match(cms, /slug: 'renovasi-pengecatan'[\s\S]*coverTitle: 'Jasa Perbaikan Rumah\/Kantor'/);
+  assert.match(cms, /covers\.find\(\(item\) => item\.category === category\.category\)/);
+  assert.doesNotMatch(cms, /coverTitle/);
   assert.doesNotMatch(cms, /slug: 'perbaikan-rumah-kantor'/);
   assert.match(detailRoute, /params\.slug === 'perbaikan-rumah-kantor'[\s\S]*redirect\(308, `\/portofolio\/renovasi-pengecatan\$\{url\.search\}`\)/);
+});
+
+test('repairs portfolio media references without keeping duplicate broken entries', () => {
+  const migration = read('../migrations/0012_repair_portfolio_media.sql');
+  const sizes = read('../migrations/0013_sync_optimized_media_sizes.sql');
+  for (const mediaId of [
+    'd3197762-b7c4-49aa-bed8-fb6f3422ff9a',
+    'acf726a3-d17a-4050-ae3c-7b7a6b167c80',
+    '987d5f5e-452e-46d0-aa21-6a3d28cc37df'
+  ]) assert.match(migration, new RegExp(mediaId));
+  for (const slug of [
+    'rs-imannuel-bandung',
+    'rs-imannuel-bandung-koridor',
+    'pt-daya-mulia-turangga-aluminium'
+  ]) assert.match(migration, new RegExp(`status = 'ARCHIVED'[\\s\\S]*${slug}`));
+  assert.match(sizes, /3adc52e7-def0-42bc-8413-bc0ec5879dc3'[\s\S]*116514/);
 });
 
 test('keeps the desktop admin navigation independently scrollable', () => {

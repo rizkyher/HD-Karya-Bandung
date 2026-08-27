@@ -7,6 +7,7 @@ export async function createInquiry(env: Env, form: FormData, fingerprint: strin
   const message = cleanText(form.get('message'), 3000);
   if (!name || !phone || !message) return null;
   const fingerprintHash = await sha256(fingerprint);
+  await env.DB.prepare("DELETE FROM inquiry_attempts WHERE attempted_at < datetime('now', '-1 day')").run();
   const attempts = await env.DB.prepare("SELECT COUNT(*) AS total FROM inquiry_attempts WHERE fingerprint = ? AND attempted_at > datetime('now', '-15 minutes')")
     .bind(fingerprintHash)
     .first<{ total: number }>();

@@ -1,4 +1,4 @@
-import { contentKinds, parseData, routeForKind } from '../content.js';
+import { contentKinds, parseData } from '../content.js';
 
 export type ContentKind = keyof typeof contentKinds extends never ? never : (typeof contentKinds)[keyof typeof contentKinds];
 export type ContentItem = {
@@ -8,19 +8,17 @@ export type ContentItem = {
 };
 
 export const portfolioCategories = [
-  { slug: 'renovasi-pengecatan', category: 'Jasa Renovasi & Pengecatan Ulang', coverTitle: 'Jasa Perbaikan Rumah/Kantor', name: 'Renovasi & Pengecatan', description: 'Perbaikan ruang, pembaruan interior, dan pengecatan ulang untuk rumah, kantor, sekolah, tempat ibadah, serta fasilitas usaha.' },
-  { slug: 'furniture-kayu', category: 'Jasa Perbaikan Lemari, Pintu, dan Meja Kayu', coverTitle: 'Buah Batu Regency', name: 'Furniture Kayu', description: 'Dokumentasi perbaikan lemari, pintu, meja, sofa pantry, dan furniture kayu lainnya.' },
-  { slug: 'instalasi-listrik', category: 'Jasa Instalasi/Relokasi Listrik', coverTitle: 'Pasang Jalur HDMI', name: 'Instalasi & Relokasi Listrik', description: 'Pemasangan jalur, pembaruan instalasi, serta relokasi saklar dan stop kontak.' },
-  { slug: 'kusen-aluminium', category: 'Pengerjaan Kusen Aluminium', coverTitle: 'PT. Pakar Biomedika Bandung', name: 'Kusen Aluminium', description: 'Pengerjaan kusen, pintu, jendela, dan partisi aluminium untuk berbagai jenis ruang.' },
-  { slug: 'furniture-interior', category: 'Pengerjaan Furniture & Interior', coverTitle: 'Pengerjaan Furniture & Interior', name: 'Furniture & Interior', description: 'Pengerjaan furniture custom dan penataan interior yang disesuaikan dengan fungsi serta ukuran ruang.' },
-  { slug: 'kaca-tempered', category: 'Pengerjaan Kaca Tempered', coverTitle: 'Pemasangan Kaca Tempered', name: 'Kaca Tempered', description: 'Pemasangan kaca tempered untuk pintu, partisi, etalase, dan kebutuhan ruang usaha.' },
-  { slug: 'huruf-timbul-neonbox', category: 'Pengerjaan Huruf Timbul & Neonbox', coverTitle: 'Pengerjaan Huruf Timbul & Neon Box', name: 'Huruf Timbul & Neon Box', description: 'Pengerjaan identitas visual usaha berupa huruf timbul dan neon box.' }
+  { slug: 'renovasi-pengecatan', category: 'Jasa Renovasi & Pengecatan Ulang', name: 'Renovasi & Pengecatan', description: 'Perbaikan ruang, pembaruan interior, dan pengecatan ulang untuk rumah, kantor, sekolah, tempat ibadah, serta fasilitas usaha.' },
+  { slug: 'furniture-kayu', category: 'Jasa Perbaikan Lemari, Pintu, dan Meja Kayu', name: 'Furniture Kayu', description: 'Dokumentasi perbaikan lemari, pintu, meja, sofa pantry, dan furniture kayu lainnya.' },
+  { slug: 'instalasi-listrik', category: 'Jasa Instalasi/Relokasi Listrik', name: 'Instalasi & Relokasi Listrik', description: 'Pemasangan jalur, pembaruan instalasi, serta relokasi saklar dan stop kontak.' },
+  { slug: 'kusen-aluminium', category: 'Pengerjaan Kusen Aluminium', name: 'Kusen Aluminium', description: 'Pengerjaan kusen, pintu, jendela, dan partisi aluminium untuk berbagai jenis ruang.' },
+  { slug: 'furniture-interior', category: 'Pengerjaan Furniture & Interior', name: 'Furniture & Interior', description: 'Pengerjaan furniture custom dan penataan interior yang disesuaikan dengan fungsi serta ukuran ruang.' },
+  { slug: 'kaca-tempered', category: 'Pengerjaan Kaca Tempered', name: 'Kaca Tempered', description: 'Pemasangan kaca tempered untuk pintu, partisi, etalase, dan kebutuhan ruang usaha.' },
+  { slug: 'huruf-timbul-neonbox', category: 'Pengerjaan Huruf Timbul & Neonbox', name: 'Huruf Timbul & Neon Box', description: 'Pengerjaan identitas visual usaha berupa huruf timbul dan neon box.' }
 ] as const;
 
 export type PortfolioCategory = (typeof portfolioCategories)[number];
 export type PortfolioMediaItem = ContentItem & { media_width: number | null; media_height: number | null };
-
-export const contentSections = ['hero', 'about', 'services_home', 'projects_home', 'why_hd', 'process', 'final_cta'] as const;
 
 export async function listPublished(env: Env | undefined, kind: ContentKind, limit = 24) {
   if (!env) return [] as ContentItem[];
@@ -32,7 +30,7 @@ export async function listPublished(env: Env | undefined, kind: ContentKind, lim
 
 export async function listPortfolioCovers(env: Env | undefined) {
   if (!env) return [] as ContentItem[];
-  const rows = await env.DB.prepare("SELECT c.id, c.kind, c.title, c.slug, c.category, c.summary, c.body, c.data, c.seo_title, c.meta_description, c.canonical_url, c.index_status, c.featured, c.published_at, c.updated_at, m.alt AS media_alt FROM content_items c LEFT JOIN media m ON m.id = json_extract(c.data, '$.cover_media_id') WHERE c.kind = 'PROYEK' AND c.status = 'PUBLISHED' AND json_extract(c.data, '$.portfolio_cover') = 1")
+  const rows = await env.DB.prepare("SELECT c.id, c.kind, c.title, c.slug, c.category, c.summary, c.body, c.data, c.seo_title, c.meta_description, c.canonical_url, c.index_status, c.featured, c.published_at, c.updated_at, m.alt AS media_alt FROM content_items c LEFT JOIN media m ON m.id = json_extract(c.data, '$.cover_media_id') WHERE c.kind = 'PROYEK' AND c.status = 'PUBLISHED' AND json_extract(c.data, '$.portfolio_cover') = 1 ORDER BY c.updated_at DESC")
     .all<ContentItem>();
   return rows.results;
 }
@@ -45,7 +43,7 @@ export async function listPortfolioCategories(env: Env | undefined) {
   ]);
   const countByCategory = new Map(counts.results.map((row) => [row.category, Number(row.total)]));
   return portfolioCategories.flatMap((category) => {
-    const cover = covers.find((item) => item.title === category.coverTitle);
+    const cover = covers.find((item) => item.category === category.category);
     if (!cover) return [];
     return [{ ...category, cover, itemCount: countByCategory.get(category.category) ?? 0 }];
   });
@@ -81,26 +79,8 @@ export async function getPublished(env: Env | undefined, kind: ContentKind, slug
     .first<ContentItem>();
 }
 
-export async function getSettings(env: Env | undefined) {
-  if (!env) return {} as Record<string, string>;
-  const rows = await env.DB.prepare('SELECT key, value FROM site_settings').all<{ key: string; value: string }>();
-  return Object.fromEntries(rows.results.map((row) => [row.key, row.value]));
-}
-
 export async function getHomepage(env: Env | undefined) {
   if (!env) return {} as Record<string, Record<string, string>>;
   const rows = await env.DB.prepare("SELECT key, data FROM page_content WHERE status = 'PUBLISHED' AND active = 1").all<{ key: string; data: string }>();
   return Object.fromEntries(rows.results.map((row) => [row.key, parseData(row.data)]));
-}
-
-export function itemData(item: ContentItem) {
-  return parseData(item.data) as Record<string, string>;
-}
-
-export function publicPath(item: Pick<ContentItem, 'kind' | 'slug'>) {
-  return `/${routeForKind(item.kind)}/${item.slug}`;
-}
-
-export function plainParagraphs(value: string) {
-  return String(value || '').split(/\n\s*\n/).map((paragraph) => paragraph.trim()).filter(Boolean);
 }

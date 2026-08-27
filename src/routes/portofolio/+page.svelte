@@ -9,7 +9,7 @@
 <svelte:head>
   <title>Portofolio Kami | Jasa Perbaikan Bandung</title>
   <meta name="description" content="Dokumentasi pekerjaan renovasi, furniture, interior, listrik, kaca tempered, kusen aluminium, dan kebutuhan ruang lainnya di Bandung." />
-  <link rel="canonical" href="https://jasaperbaikanbandung.com/portofolio" />
+  <link rel="canonical" href="/portofolio" />
 </svelte:head>
 
 <PublicShell>

@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "test": "node --test",
+    "test:production": "node scripts/check-production.mjs",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "dev": "vite dev",
     "build": "vite build",
@@ -25,7 +26,6 @@
     "tailwindcss": "^4.3.3",
     "typescript": "^5.9.3",
     "vite": "^8.2.1",
-    "vitest": "^4.1.10",
     "wrangler": "^4.120.0"
   },
   "dependencies": {

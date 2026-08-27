@@ -18,7 +18,7 @@
   {#if data.mode === 'category'}
     <title>{data.category.name} | Portofolio Kami</title>
     <meta name="description" content={`Lihat ${data.total} dokumentasi pekerjaan ${data.category.name} oleh Jasa Perbaikan Bandung.`} />
-    <link rel="canonical" href={`https://jasaperbaikanbandung.com/portofolio/${data.category.slug}`} />
+    <link rel="canonical" href={`/portofolio/${data.category.slug}`} />
   {/if}
 </svelte:head>
 

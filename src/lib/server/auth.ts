@@ -1,5 +1,5 @@
 const encoder = new TextEncoder();
-export const PBKDF2_ITERATIONS = 100_000;
+export const PBKDF2_ITERATIONS = 600_000;
 const LEGACY_PBKDF2_ITERATIONS = 100_000;
 
 export type Role = 'SUPER_ADMIN' | 'EDITOR';
